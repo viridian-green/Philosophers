@@ -6,31 +6,52 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/26 15:08:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:47:26 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <header.h>
 
 void *eat(void *data)
 {
-	printf("I am eating");
-	sleep(3);
-	printf("I am done");
-	return NULL;
+	fprintf(stderr, "I am eating");
+	usleep(100000);
+	fprintf(stderr, "I am done");
+	pthread_exit(NULL);
+}
+
+void *sleeping(void *data)
+{
+	fprintf(stderr, "I am sleeping");
+	usleep(100000);
+	fprintf(stderr, "zzzz");
+	pthread_exit(NULL);
 }
 
 int main()
 {
+	//to retrieve thread id
+	//pthread_self();
+
+	//Each thread has an ID number
 	pthread_t philo_1;
+	//pthread_t eating_routine;
 	pthread_t philo_2;
-	pthread_create(&philo_1, NULL, eat, NULL); //creare a thread with pthread
-	pthread_create(&philo_2, NULL, eat, NULL); //creare a thread with pthread
+	pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-	//Tzo threads are running simalteneously
+	//Creating the eating routine with the pthread function
+	if (pthread_create(&philo_1, NULL, eat, NULL))
+		return (EXIT_FAILURE);
+	if (pthread_create(&philo_2, NULL, sleeping, NULL)) //creare a thread with pthread
+		return (EXIT_FAILURE);
 
-	pthread_join();
-
+	//Just like parent waiting for its child with wait() function
+	//The main waits for threads before exiting
+	pthread_join(philo_1, NULL);
+	pthread_join(philo_2, NULL);
+	pthread_mutex_destroy(&mutex);
 }
