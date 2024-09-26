@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fopenmp
+FLAGS = -Wall -Wextra -Werror -pthread
 
 SRC = main.c
 
