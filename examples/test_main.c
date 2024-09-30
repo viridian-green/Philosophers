@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/30 12:27:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:41:44 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void *sleeping(void *data)
 	return (NULL);
 }
 
-void data_init(t_arg *arg, char **argv)
+void data_init(t_arg *arg, t_philo philo, char **argv)
 {
 	//arg->n_philo = argv[0];
 	arg->n_philo = 2;
@@ -47,8 +47,7 @@ int main(int argc, char **argv)
 
 	data_init(arg, argv);
 
-	if (pthread_mutex_init(&fork, NULL))
-		return ;
+
 
 	if (pthread_create(&philo_1.thread, NULL, eat, NULL))
 		return ;
