@@ -1,8 +1,9 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+FLAGS = -Wall -Wextra -Werror -pthread
+#-fsanitize=thread
 
-SRC = my_test.c
+SRC = detach.c
 
 OBJ = $(SRC:.c=.o)
 
