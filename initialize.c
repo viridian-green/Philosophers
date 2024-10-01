@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 16:58:42 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:35:50 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ void	init_philos(t_philo *philo, t_data *data)
 	}
 }
 
-void data_init(t_data *args, t_philo *philos, char **argv)
+void data_init(t_data *data, t_philo *philos, char **argv)
 {
-	//arg->n_philo = ft_atoi(argv[0]);
-	args->n_philo = 3;
-	args->time_die = 2;
-	args->time_eat = 3;
-	args->time_sleep = 4;
-	init_forks(philos, args);
-	init_philos(philos, args);
+	data->n_philo = 3;
+	data->time_die = 800;
+	data->time_eat = 200;
+	data->time_sleep = 200;
+	init_forks(philos, data);
+	init_philos(philos, data);
 }
