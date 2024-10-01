@@ -6,11 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 13:19:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:39:45 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "philo.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -39,4 +39,27 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (sign * result);
+}
+
+long get_elapsed_time_microseconds(struct timeval start, struct timeval end)
+{
+    return (end.tv_sec - start.tv_sec) * 1000000L + (end.tv_usec - start.tv_usec);
+}
+
+void precise_usleep(long usec)
+{
+    struct timeval start, current;
+    long elapsed;
+    long rem;
+
+    gettimeofday(&start, NULL);
+    do {
+        gettimeofday(&current, NULL);
+        elapsed = get_elapsed_time_microseconds(start, current);
+        rem = usec - elapsed;
+
+        if (rem > 1000)
+            usleep(rem / 2);
+
+    } while (elapsed < usec);
 }

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 16:57:42 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:40:00 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ void init_forks(t_philo *philos, t_data *args);
 
 //Utils
 int	ft_atoi(const char *nptr);
+void precise_usleep(long usec);
+long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 
 #endif

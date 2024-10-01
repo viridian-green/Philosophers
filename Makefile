@@ -3,7 +3,7 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror -pthread
 #-fsanitize=thread
 
-SRC = main.c initialize.c utils.c
+SRC = main.c initialize.c utils.c routines.c
 
 OBJ = $(SRC:.c=.o)
 
