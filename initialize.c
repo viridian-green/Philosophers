@@ -6,37 +6,43 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 15:00:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:58:42 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "philo.h"
 
 void init_forks(t_philo *philos, t_data *data)
 {
 	int i = 0;
 
-	data->fork = malloc(sizeof(pthread_mutex_t *) * data->n_philo);
+	data->fork = malloc(sizeof(pthread_mutex_t) * data->n_philo);
 	if (!data->fork)
-		//error_function();
+		{
+		perror("error");
+		EXIT_FAILURE;
+	}
 	while (i < data->n_philo)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL))
-			//error_function();
+		{
+			perror("error");
+			EXIT_FAILURE;
+		}
 		i++;
 	}
 }
 
 //Function that initializes a fork/mutex for each philosopher (on the left).
-//
-void	init_philos(t_philo *philos, t_data *data)
+void	init_philos(t_philo *philo, t_data *data)
 {
 	int i = 0;
+	philo =  malloc(sizeof(t_philo) * data->n_philo);
 	while (i < data->n_philo)
 	{
-		philos[i].id = i + 1;
-		philos->l_f = &data->fork[i];//create->mutex;
-		//data->r_f = 1;//create->mutex;
+		philo[i].id = i + 1;
+		philo[i].l_f = &data->fork[i];
+		philo[i].r_f = &data->fork[(i + 1) % data->n_philo];
 		i++;
 	}
 }
@@ -50,5 +56,4 @@ void data_init(t_data *args, t_philo *philos, char **argv)
 	args->time_sleep = 4;
 	init_forks(philos, args);
 	init_philos(philos, args);
-
 }
