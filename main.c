@@ -6,26 +6,40 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 13:59:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:07:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// is_dead
+
+
 void *routine(void *data)
 {
-	printf("hey");
+	t_philo *philo;
+	int is_dead;
+	is_dead = 0;
+	philo = (t_philo *)data;
+	// if (philo->id % 2 == 0)
+	// 	ft_usleep(philo, 1);
+	while (!is_dead)
+	{
+
+	}
 	return (NULL);
 }
 
-void threading_philos(t_data *data, t_philo *philo)
+int threading_philos(t_data *data, t_philo *philo)
 {
 	int i = 0;
 	while (i < data->total_philo)
 	{
-		pthread_create(&philo[i].thread, NULL, routine, philo);
+		if (pthread_create(&philo[i].thread, NULL, routine, philo))
+			return (exit_error("Thread failed to return\n"));
 		i++;
 	}
+	return (1);
 }
 
 int parse_args(t_data *data, int argc, char **argv)

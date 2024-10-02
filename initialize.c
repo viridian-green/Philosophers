@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 12:17:21 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:13:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void	init_philos(t_philo *philo, t_data *data)
 	while (i < data->total_philo)
 	{
 		philo[i].id = i + 1;
+		philo[i].start_time = get_time();
+		philo[i].has_eaten = 0;
+		philo[i].is_dead = 0;
 		philo[i].l_f = &data->fork[i];
 		philo[i].r_f = &data->fork[(i + 1) % data->total_philo];
 		i++;
@@ -49,10 +52,6 @@ void	init_philos(t_philo *philo, t_data *data)
 
 void data_init(t_data *data, t_philo *philos, char **argv)
 {
-	data->total_philo = 3;
-	data->time_die = 800;
-	data->time_eat = 200;
-	data->time_sleep = 200;
 	init_forks(philos, data);
 	init_philos(philos, data);
 }

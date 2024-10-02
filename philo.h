@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 13:54:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:13:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <stdio.h>
 #include <sys/time.h>
 
 //Notice there is no time to think so thinking is essentially u_sleep/waiting
@@ -25,6 +24,7 @@
 typedef struct s_data
 {
 	pthread_mutex_t *fork;
+	pthread_mutex_t *write_mutex;
 	int				total_philo;
 	int				time_die;
 	int				time_eat;
@@ -37,7 +37,10 @@ typedef struct s_philo
 	pthread_t	thread;
 	pthread_mutex_t	*r_f;
 	pthread_mutex_t	*l_f;
-	int 		flag;
+	int		is_dead;
+	long	start_time;
+	long 	last_meal;
+	long	has_eaten;
 
 }	t_philo;
 
@@ -51,8 +54,9 @@ int exit_error(char *error_message);
 
 //Utils
 int	ft_atoi(const char *nptr);
-void precise_usleep(long usec);
+void	ft_usleep(long int time_in_ms);
 long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 void	ft_putstr_fd(char *s, int fd);
+long int	get_time(void);
 
 #endif
