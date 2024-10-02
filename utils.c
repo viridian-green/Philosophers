@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 17:39:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:11:07 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (sign * result);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
 
 long get_elapsed_time_microseconds(struct timeval start, struct timeval end)

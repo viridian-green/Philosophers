@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/01 18:35:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:17:21 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void init_forks(t_philo *philos, t_data *data)
 {
 	int i = 0;
 
-	data->fork = malloc(sizeof(pthread_mutex_t) * data->n_philo);
+	data->fork = malloc(sizeof(pthread_mutex_t) * data->total_philo);
 	if (!data->fork)
 		{
 		perror("error");
 		EXIT_FAILURE;
 	}
-	while (i < data->n_philo)
+	while (i < data->total_philo)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL))
 		{
@@ -37,19 +37,19 @@ void init_forks(t_philo *philos, t_data *data)
 void	init_philos(t_philo *philo, t_data *data)
 {
 	int i = 0;
-	philo =  malloc(sizeof(t_philo) * data->n_philo);
-	while (i < data->n_philo)
+	philo =  malloc(sizeof(t_philo) * data->total_philo);
+	while (i < data->total_philo)
 	{
 		philo[i].id = i + 1;
 		philo[i].l_f = &data->fork[i];
-		philo[i].r_f = &data->fork[(i + 1) % data->n_philo];
+		philo[i].r_f = &data->fork[(i + 1) % data->total_philo];
 		i++;
 	}
 }
 
 void data_init(t_data *data, t_philo *philos, char **argv)
 {
-	data->n_philo = 3;
+	data->total_philo = 3;
 	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;
