@@ -6,11 +6,21 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 15:13:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:02:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	message(char *str, t_philo *philo)
+{
+	printf("hey");
+	if (philo->is_dead == 0)
+	{
+		printf("%ld %d %s\n", get_time() - philo->start_time, \
+		philo->id, str);
+}
+}
 
 long int	get_time(void)
 {

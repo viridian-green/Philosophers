@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 15:13:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:50:37 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_philo
 	long	start_time;
 	long 	last_meal;
 	long	has_eaten;
+	t_data *data;
 
 }	t_philo;
 
@@ -58,5 +59,6 @@ void	ft_usleep(long int time_in_ms);
 long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 void	ft_putstr_fd(char *s, int fd);
 long int	get_time(void);
+void	message(char *str, t_philo *philo);
 
 #endif

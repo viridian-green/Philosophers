@@ -6,12 +6,13 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 15:13:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:59:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+//Function that initializes all forks.
 void init_forks(t_philo *philos, t_data *data)
 {
 	int i = 0;
@@ -33,7 +34,7 @@ void init_forks(t_philo *philos, t_data *data)
 	}
 }
 
-//Function that initializes a fork/mutex for each philosopher (on the left).
+//Function that initializes the data for each philosopher
 void	init_philos(t_philo *philo, t_data *data)
 {
 	int i = 0;
@@ -42,6 +43,7 @@ void	init_philos(t_philo *philo, t_data *data)
 	{
 		philo[i].id = i + 1;
 		philo[i].start_time = get_time();
+		philo[i].last_meal = get_time() - philo->start_time;
 		philo[i].has_eaten = 0;
 		philo[i].is_dead = 0;
 		philo[i].l_f = &data->fork[i];

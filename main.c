@@ -6,36 +6,54 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 15:07:34 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:21:54 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// is_dead
-
-
-void *routine(void *data)
+int eat(t_philo *p)
 {
-	t_philo *philo;
 	int is_dead;
 	is_dead = 0;
-	philo = (t_philo *)data;
-	// if (philo->id % 2 == 0)
-	// 	ft_usleep(philo, 1);
-	while (!is_dead)
-	{
+	pthread_mutex_init(p->data->write_mutex, NULL);
+	pthread_mutex_lock(p->data->write_mutex);
+	printf("hey");
+	pthread_mutex_unlock(p->data->write_mutex);
 
-	}
-	return (NULL);
+	pthread_mutex_lock(p->data->write_mutex);
+    message("is eating", p);
+    pthread_mutex_unlock(p->data->write_mutex);
+
+    ft_usleep(p, p->data->time_eat);
+	return 0;
 }
 
+	// while (!is_dead)
+	// {
+	// 	pthread_mutex_lock(p->data->write_mutex);
+	// 	message("has taken a fork", p);
+	// 	pthread_mutex_unlock(p->data->write_mutex);
+	// 	is_dead = 1;
+	// }
+
+void *routine(void *arg)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)arg;
+	// if (philo->id % 2 == 0)
+	// 	ft_usleep(philo, 1);
+	eat(philo);
+	return (NULL);
+}
+//TODO : check if the casting is well done
 int threading_philos(t_data *data, t_philo *philo)
 {
 	int i = 0;
 	while (i < data->total_philo)
 	{
-		if (pthread_create(&philo[i].thread, NULL, routine, philo))
+		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]))
 			return (exit_error("Thread failed to return\n"));
 		i++;
 	}
