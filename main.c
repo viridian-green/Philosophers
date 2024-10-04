@@ -6,12 +6,14 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 14:26:13 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:31:58 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+//Notice there is no time to think so thinking is essentially u_sleep/waiting
+//for fork to be unlocked
 int eat(t_data *data)
 {
 	int is_dead;
@@ -19,9 +21,12 @@ int eat(t_data *data)
 	int i = 0;
 	while (!is_dead)
 	{
+	pthread_mutex_lock(data->p->l_f);
     pthread_mutex_lock(&data->write_mutex);
 	message("has taken a fork", data->p);
 	pthread_mutex_unlock(&data->write_mutex);
+
+	pthread_mutex_unlock(data->p->l_f);
 	usleep(30);
 	is_dead = 1;
 	}
@@ -39,10 +44,10 @@ void *routine(void *arg)
 {
 	t_philo *philo = (t_philo *)arg; // Cast arg to t_philo pointer
 
-    printf("%d\n", philo->id); // Access the philosopher's ID directly
     eat(philo->data);
 	return (NULL);
 }
+
 //TODO : check if the casting is well done
 int threading_philos(t_data *data)
 {
