@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 14:31:58 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:34:46 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 //Notice there is no time to think so thinking is essentially u_sleep/waiting
 //for fork to be unlocked
-int eat(t_data *data)
+int eat(t_philo *p)
 {
 	int is_dead;
 	is_dead = 0;
 	int i = 0;
 	while (!is_dead)
 	{
-	pthread_mutex_lock(data->p->l_f);
-    pthread_mutex_lock(&data->write_mutex);
-	message("has taken a fork", data->p);
-	pthread_mutex_unlock(&data->write_mutex);
+	pthread_mutex_lock(p->l_f);
+    pthread_mutex_lock(&p->data->write_mutex);
+	message("has taken a fork", p);
+	pthread_mutex_unlock(&p->data->write_mutex);
 
-	pthread_mutex_unlock(data->p->l_f);
+	pthread_mutex_unlock(p->l_f);
 	usleep(30);
 	is_dead = 1;
 	}
@@ -42,13 +42,12 @@ pthread_mutex_unlock(data->p->l_f);
 
 void *routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg; // Cast arg to t_philo pointer
+	t_philo *philo = (t_philo *)arg;
 
-    eat(philo->data);
+    eat(philo);
 	return (NULL);
 }
 
-//TODO : check if the casting is well done
 int threading_philos(t_data *data)
 {
 	int i = 0;
@@ -60,9 +59,11 @@ int threading_philos(t_data *data)
 	}
 	i++;
     }
- for (int i = 0; i < data->total_philo; i++)
+	i = 0;
+ 	while (i < data->total_philo)
  	{
-        pthread_join(data->p[i].thread, NULL);  // Join all threads
+        pthread_join(data->p[i].thread, NULL);
+		i++;
     }
 	return (1);
 }
