@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   utils_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/03 19:02:13 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:36:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	message(char *str, t_philo *philo)
-{
-	printf("hey");
+{/*
 	if (philo->is_dead == 0)
 	{
 		printf("%ld %d %s\n", get_time() - philo->start_time, \
 		philo->id, str);
 }
+*/
+	if (philo)
+	{
+		printf("%ld %d %s\n", get_time() - philo->start_time, \
+		philo->id, str);
+	}
 }
 
 long int	get_time(void)

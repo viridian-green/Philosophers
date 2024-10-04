@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:53:12 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:45:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,32 @@
 
 int eat(t_data *data)
 {
-	//printf("hey");
 	int is_dead;
 	is_dead = 0;
+	while (!is_dead)
+	{
 
-	printf("Trying to lock mutex...\n");  // Test print
     pthread_mutex_lock(&data->write_mutex);
-	//printf("Thread %ld locked mutex\n", pthread_self());
-    printf("Locked mutex and printing: hey\n");  // Test print
+	message("has taken a fork", data->p);
+	pthread_mutex_unlock(&data->write_mutex);
+    pthread_mutex_lock(&data->write_mutex);
+	message("has taken a fork", data->p);
+	pthread_mutex_lock(&data->write_mutex);
+    message("is eating", data->p);
     pthread_mutex_unlock(&data->write_mutex);
-    printf("Unlocked mutex\n");  // Test print
+	usleep(30);
 
-    usleep(30);
+	is_dead = 1;
+	}
 	return 0;
 }
 
-	// while (!is_dead)
-	// {
-
-	// 	pthread_mutex_lock(p->data->write_mutex);
-	// 	message("has taken a fork", p);
-	// 	pthread_mutex_unlock(p->data->write_mutex);
-	// 	is_dead = 1;
 /*
-	pthread_mutex_lock(&p->data->write_mutex);
-	printf("hey");
-	pthread_mutex_unlock(&p->data->write_mutex);
-	pthread_mutex_lock(&p->data->write_mutex);
-    message("is eating", p);
-    pthread_mutex_unlock(&p->data->write_mutex);
-	*/
-	// }
+pthread_mutex_lock(data->p->l_f);
+pthread_mutex_lock(data->p->r_f);
+pthread_mutex_unlock(data->p->l_f);
+	pthread_mutex_unlock(data->p->l_f);
+*/
 
 void *routine(void *arg)
 {
@@ -53,31 +48,21 @@ void *routine(void *arg)
 	data = (t_data *)arg;
 	// if (philo->id % 2 == 0)
 	// 	ft_usleep(philo, 1);
-	int ret = pthread_mutex_lock(&data->write_mutex);
-	if (ret != 0)
-    	printf("Error: failed to lock mutex, error code: %d\n", ret);
-
-    pthread_mutex_unlock(&data->write_mutex);
+	eat(data);
 	return (NULL);
 }
 //TODO : check if the casting is well done
 int threading_philos(t_data *data)
 {
 	int i = 0;
-	/*
 	while (i < data->total_philo)
 	{
-		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]))
-			return (exit_error("Thread failed to return\n"));
-		i++;
-	}
-	*/
-	for (int i = 0; i < data->total_philo; i++) {
-    if (pthread_create(&data->p[i].thread, NULL, routine, data))
+    if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
 	{
         return exit_error("Thread creation failed\n");
+	}
+	i++;
     }
-}
 
 for (int i = 0; i < data->total_philo; i++) {
     pthread_join(data->p[i].thread, NULL);  // Join all threads
