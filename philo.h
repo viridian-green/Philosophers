@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:39:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:22:44 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 //Notice there is no time to think so thinking is essentially u_sleep/waiting
 //for fork to be unlocked
 
+typedef struct s_data	t_data;
+
 typedef struct s_philo
 {
 	int			id;
@@ -32,7 +34,7 @@ typedef struct s_philo
 	long	start_time;
 	long 	last_meal;
 	long	has_eaten;
-
+	t_data *data;
 }	t_philo;
 
 typedef struct s_data

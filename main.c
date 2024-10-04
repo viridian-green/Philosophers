@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 13:45:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:26:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,13 @@ int eat(t_data *data)
 {
 	int is_dead;
 	is_dead = 0;
+	int i = 0;
 	while (!is_dead)
 	{
-
     pthread_mutex_lock(&data->write_mutex);
 	message("has taken a fork", data->p);
 	pthread_mutex_unlock(&data->write_mutex);
-    pthread_mutex_lock(&data->write_mutex);
-	message("has taken a fork", data->p);
-	pthread_mutex_lock(&data->write_mutex);
-    message("is eating", data->p);
-    pthread_mutex_unlock(&data->write_mutex);
 	usleep(30);
-
 	is_dead = 1;
 	}
 	return 0;
@@ -43,12 +37,10 @@ pthread_mutex_unlock(data->p->l_f);
 
 void *routine(void *arg)
 {
-	t_data *data;
+	t_philo *philo = (t_philo *)arg; // Cast arg to t_philo pointer
 
-	data = (t_data *)arg;
-	// if (philo->id % 2 == 0)
-	// 	ft_usleep(philo, 1);
-	eat(data);
+    printf("%d\n", philo->id); // Access the philosopher's ID directly
+    eat(philo->data);
 	return (NULL);
 }
 //TODO : check if the casting is well done
@@ -63,10 +55,10 @@ int threading_philos(t_data *data)
 	}
 	i++;
     }
-
-for (int i = 0; i < data->total_philo; i++) {
-    pthread_join(data->p[i].thread, NULL);  // Join all threads
-}
+ for (int i = 0; i < data->total_philo; i++)
+ 	{
+        pthread_join(data->p[i].thread, NULL);  // Join all threads
+    }
 	return (1);
 }
 
@@ -87,8 +79,8 @@ int parse_args(t_data *data, int argc, char **argv)
 int main(int argc, char **argv)
 {
 	t_data *data;
+	int i = 0;
 	data = malloc(sizeof(t_data));
-
 	if (data == NULL) {
         return exit_error("Error allocating memory for data\n");
     }

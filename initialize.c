@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:46:52 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:23:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	init_philos(t_data *data)
 	while (i < data->total_philo)
 	{
 		data->p[i].id = i + 1;
+		data->p[i].data = data;
 		data->p[i].start_time = get_time();
 		data->p[i].last_meal = get_time() - data->p->start_time;
 		data->p[i].has_eaten = 0;

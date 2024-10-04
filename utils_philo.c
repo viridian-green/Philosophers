@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 13:36:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:09:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	message(char *str, t_philo *philo)
 */
 	if (philo)
 	{
-		printf("%ld %d %s\n", get_time() - philo->start_time, \
+		printf("%d %s\n",
 		philo->id, str);
 	}
+
 }
 
 long int	get_time(void)
