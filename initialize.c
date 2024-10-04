@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/03 18:59:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:20:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_philos(t_philo *philo, t_data *data)
 	while (i < data->total_philo)
 	{
 		philo[i].id = i + 1;
+		philo[i].data = data;
 		philo[i].start_time = get_time();
 		philo[i].last_meal = get_time() - philo->start_time;
 		philo[i].has_eaten = 0;
@@ -54,6 +55,8 @@ void	init_philos(t_philo *philo, t_data *data)
 
 void data_init(t_data *data, t_philo *philos, char **argv)
 {
+	data->philos =  malloc(sizeof(t_philo) * data->total_philo);
 	init_forks(philos, data);
 	init_philos(philos, data);
+	pthread_mutex_init(&data->write_mutex, NULL);
 }

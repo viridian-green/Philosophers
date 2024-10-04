@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/03 18:50:37 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:15:35 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 typedef struct s_data
 {
 	pthread_mutex_t *fork;
-	pthread_mutex_t *write_mutex;
+	pthread_mutex_t write_mutex;
 	int				total_philo;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
+	t_philo			*philos;
 }	t_data;
 
 typedef struct s_philo
@@ -41,7 +42,6 @@ typedef struct s_philo
 	long	start_time;
 	long 	last_meal;
 	long	has_eaten;
-	t_data *data;
 
 }	t_philo;
 
