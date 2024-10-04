@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:40:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:53:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,11 @@ void *routine(void *arg)
 	data = (t_data *)arg;
 	// if (philo->id % 2 == 0)
 	// 	ft_usleep(philo, 1);
-
-    if (pthread_mutex_lock(&data->write_mutex) != 0)
-    	printf("Error: failed to lock mutex\n");
-    printf("Thread %d has locked the mutex\n", data->p->id);
-
-    // Perform your operations here
-    printf("Thread %d: hey\n", data->p->id);
+	int ret = pthread_mutex_lock(&data->write_mutex);
+	if (ret != 0)
+    	printf("Error: failed to lock mutex, error code: %d\n", ret);
 
     pthread_mutex_unlock(&data->write_mutex);
-    printf("Thread %d has unlocked the mutex\n", data->p->id);
-	//eat(philo);
 	return (NULL);
 }
 //TODO : check if the casting is well done
@@ -79,7 +73,8 @@ int threading_philos(t_data *data)
 	}
 	*/
 	for (int i = 0; i < data->total_philo; i++) {
-    if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i])) {
+    if (pthread_create(&data->p[i].thread, NULL, routine, data))
+	{
         return exit_error("Thread creation failed\n");
     }
 }
