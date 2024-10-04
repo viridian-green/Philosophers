@@ -6,23 +6,23 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:20:21 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:40:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int eat(t_philo *p)
+int eat(t_data *data)
 {
 	//printf("hey");
 	int is_dead;
 	is_dead = 0;
 
 	printf("Trying to lock mutex...\n");  // Test print
-    pthread_mutex_lock(&p->data->write_mutex);
+    pthread_mutex_lock(&data->write_mutex);
 	//printf("Thread %ld locked mutex\n", pthread_self());
     printf("Locked mutex and printing: hey\n");  // Test print
-    pthread_mutex_unlock(&p->data->write_mutex);
+    pthread_mutex_unlock(&data->write_mutex);
     printf("Unlocked mutex\n");  // Test print
 
     usleep(30);
@@ -48,28 +48,26 @@ int eat(t_philo *p)
 
 void *routine(void *arg)
 {
-	t_philo *p;
+	t_data *data;
 
-	p = (t_philo *)arg;
+	data = (t_data *)arg;
 	// if (philo->id % 2 == 0)
 	// 	ft_usleep(philo, 1);
 
-	if (p->data == NULL)
-    	printf("Error: p->data is NULL\n");
-    if (pthread_mutex_lock(&p->data->write_mutex) != 0)
+    if (pthread_mutex_lock(&data->write_mutex) != 0)
     	printf("Error: failed to lock mutex\n");
-    printf("Thread %d has locked the mutex\n", p->id);
+    printf("Thread %d has locked the mutex\n", data->p->id);
 
     // Perform your operations here
-    printf("Thread %d: hey\n", p->id);
+    printf("Thread %d: hey\n", data->p->id);
 
-    pthread_mutex_unlock(&p->data->write_mutex);
-    printf("Thread %d has unlocked the mutex\n", p->id);
+    pthread_mutex_unlock(&data->write_mutex);
+    printf("Thread %d has unlocked the mutex\n", data->p->id);
 	//eat(philo);
 	return (NULL);
 }
 //TODO : check if the casting is well done
-int threading_philos(t_data *data, t_philo *philo)
+int threading_philos(t_data *data)
 {
 	int i = 0;
 	/*
@@ -81,13 +79,13 @@ int threading_philos(t_data *data, t_philo *philo)
 	}
 	*/
 	for (int i = 0; i < data->total_philo; i++) {
-    if (pthread_create(&philo[i].thread, NULL, routine, &philo[i])) {
+    if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i])) {
         return exit_error("Thread creation failed\n");
     }
 }
 
 for (int i = 0; i < data->total_philo; i++) {
-    pthread_join(philo[i].thread, NULL);  // Join all threads
+    pthread_join(data->p[i].thread, NULL);  // Join all threads
 }
 	return (1);
 }
@@ -108,14 +106,14 @@ int parse_args(t_data *data, int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-	t_data data;
-	t_philo *philo;
+	t_data *data;
+	data = malloc(sizeof(t_data));
 
-	if (parse_args(&data, argc, argv))
+	if (data == NULL) {
+        return exit_error("Error allocating memory for data\n");
+    }
+	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
-	// struct timeval current_time;
-	// gettimeofday(&current_time, NULL);
-
-	data_init(&data, philo, argv);
-	threading_philos(&data, philo);
+	data_init(data, argv);
+	threading_philos(data);
 }

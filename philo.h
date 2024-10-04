@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 12:15:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:39:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,6 @@
 
 //Notice there is no time to think so thinking is essentially u_sleep/waiting
 //for fork to be unlocked
-typedef struct s_data
-{
-	pthread_mutex_t *fork;
-	pthread_mutex_t write_mutex;
-	int				total_philo;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	t_philo			*philos;
-}	t_data;
 
 typedef struct s_philo
 {
@@ -45,10 +35,22 @@ typedef struct s_philo
 
 }	t_philo;
 
+typedef struct s_data
+{
+	pthread_mutex_t *fork;
+	pthread_mutex_t write_mutex;
+	int				total_philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	t_philo			*p;
+}	t_data;
+
+
 //Initialize
-void	init_philos(t_philo *philos, t_data *args);
-void data_init(t_data *arg, t_philo *philos, char **argv);
-void init_forks(t_philo *philos, t_data *args);
+int	init_philos(t_data *args);
+int data_init(t_data *arg, char **argv);
+int init_forks(t_data *args);
 
 //Error/memory
 int exit_error(char *error_message);
