@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/14 18:09:07 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:16:38 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
-	message("has taken the right fork", data->p);
-	threading_philos(data);
+	 threading_philos(data);
+	//printf("%ld", get_time());
 	destroy_mutex(data);
 }

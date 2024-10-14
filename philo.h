@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/14 18:06:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:14:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data
 {
 	pthread_mutex_t *fork;
 	pthread_mutex_t write_mutex;
-	int		start_time;
+	long		start_time;
 	int				total_philo;
 	int				time_die;
 	int				time_eat;
@@ -60,7 +60,7 @@ int	ft_atoi(const char *nptr);
 void	ft_usleep(long int time_in_ms);
 long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 void	ft_putstr_fd(char *s, int fd);
-int	get_time(void);
+long	get_time(void);
 void	message(char *str, t_philo *philo);
 
 #endif
