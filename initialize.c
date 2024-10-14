@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 14:23:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:58:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int init_forks(t_data *data)
 int	init_philos(t_data *data)
 {
 	int i = 0;
+	long global_start_time;
+
+	global_start_time = get_time();
 	data->p =  malloc(sizeof(t_philo) * data->total_philo);
 	if (!data->p )
 		return (exit_error("Failed to allocate memory for philosophers."));
@@ -46,8 +49,7 @@ int	init_philos(t_data *data)
 	{
 		data->p[i].id = i + 1;
 		data->p[i].data = data;
-		data->p[i].start_time = get_time();
-		data->p[i].last_meal = get_time() - data->p->start_time;
+		data->p[i].last_meal = global_start_time;
 		data->p[i].has_eaten = 0;
 		data->p[i].is_dead = 0;
 		data->p[i].l_f = &data->fork[i];

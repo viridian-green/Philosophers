@@ -3,41 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   utils_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/04 14:27:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:06:19 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	message(char *str, t_philo *philo)
-{/*
-	if (philo->is_dead == 0)
-	{
-		printf("%ld %d %s\n", get_time() - philo->start_time, \
-		philo->id, str);
-}
-*/
+{
 	if (philo)
 	{
-		printf("%ld %d %s\n",
-		get_time() - philo->start_time, philo->id, str);
+		pthread_mutex_lock(&philo->data->write_mutex);
+		printf("%d %d %s\n",
+		get_time() - philo->data->start_time, philo->id, str);
+		pthread_mutex_unlock(&philo->data->write_mutex);
 	}
-
 }
 
-long int	get_time(void)
+int	get_time(void)
 {
-	long int			time;
-	struct timeval		current_time;
+	static struct timeval	time;
 
-	time = 0;
-	if (gettimeofday(&current_time, NULL) == -1)
-		exit_error("Gettimeofday returned -1\n");
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	return (time);
+	if (gettimeofday(&time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 void	ft_usleep(long int time_in_ms)
