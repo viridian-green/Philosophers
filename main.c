@@ -6,66 +6,19 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 13:11:37 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:33:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int is_dead(t_philo *p)
-{
-	if (get_time() - p->last_meal >= p->data->time_die)
-	{
-		message("has died", p);
-		return (1);
-	}
-	return 0;
-}
-
-int is_eating(t_philo *p)
-{
-	int i = 0;
-	if (p->id % 2 == 0)
-	{
-    	pthread_mutex_lock(p->l_f);
-		message("has taken the left fork", p);
-    	pthread_mutex_lock(p->r_f);
-		message("has taken the right fork", p);
-	} else
-	{
-		pthread_mutex_lock(p->r_f);
-		message("has taken the right fork", p);
-		pthread_mutex_lock(p->l_f);
-		message("has taken the left fork", p);
-	}
-	message("is eating", p);
-	pthread_mutex_unlock(&p->data->meal_lock);
-	p->last_meal = get_time();
-	pthread_mutex_lock(&p->data->meal_lock);
-	ft_usleep(p->data->time_eat);
-	pthread_mutex_unlock(p->r_f);
-	pthread_mutex_unlock(p->l_f);
-	return 0;
-}
-
-int is_sleeping(t_philo *p)
-{
-	message("is sleeping", p);
-	ft_usleep(p->data->time_sleep);
-	return (0);
-}
-
-int is_thinking(t_philo *p)
-{
-	message("is thinking", p);
-	return (0);
-}
 
 void *routine(void *arg)
 {
 	t_philo *philo = (t_philo *)arg;
 	while (!is_dead(philo))
 	{
+		if (is_dead(philo))
+			return (0);
 		is_eating(philo);
 		is_sleeping(philo);
 		is_thinking(philo);
@@ -138,4 +91,5 @@ int main(int argc, char **argv)
 	 threading_philos(data);
 	//printf("%ld", get_time());
 	destroy_mutex(data);
+	free(data);
 }
