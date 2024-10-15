@@ -6,11 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 13:06:22 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:59:35 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 //Function that initializes all forks.
 int init_forks(t_data *data)
@@ -64,8 +64,10 @@ int data_init(t_data *data, char **argv)
 	if (init_forks(data) || init_philos(data))
 		return (-1);
 	if (pthread_mutex_init(&data->write_mutex, NULL) != 0)
-        perror("Mutex initialization failed");
+        perror("Writelock mutex initialization failed");
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-        perror("Mutex initialization failed");
+        perror("Meallock mutex initialization failed");
+	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
+        perror("Deadlock Mutex initialization failed");
 	return (0);
 }

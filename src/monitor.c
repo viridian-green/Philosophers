@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_memory.c                                     :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 13:54:04 by ademarti         ###   ########.fr       */
+/*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
+/*   Updated: 2024/10/15 15:04:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-int exit_error(char *error_message)
+void *monitor(void *arg)
 {
-	ft_putstr_fd(error_message, 2);
-	exit (1);
+	t_data *data;
+	data = (t_data *)arg;
+	while (1)
+	{
+		if (is_dead(data->p))
+		{
+			pthread_mutex_lock(&data->dead_lock);
+		}
+		pthread_mutex_unlock(&data->dead_lock);
+		ft_usleep(100);
+	}
+
+
+
 }

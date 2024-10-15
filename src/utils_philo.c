@@ -6,11 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 13:13:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:41:41 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	message(char *str, t_philo *philo)
 {
@@ -32,7 +32,7 @@ long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-//add is dead check here 
+//add is dead check here
 void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;

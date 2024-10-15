@@ -6,11 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:41:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/02 14:42:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:42:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 
 int	ft_atoi(const char *nptr)
