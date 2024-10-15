@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/14 18:14:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:08:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_data
 {
 	pthread_mutex_t *fork;
 	pthread_mutex_t write_mutex;
+	pthread_mutex_t	meal_lock;
 	long		start_time;
 	int				total_philo;
 	int				time_die;
