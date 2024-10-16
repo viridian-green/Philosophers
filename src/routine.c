@@ -6,19 +6,20 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 11:41:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:15 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+//Double check if function is correct
 int is_dead(t_philo *p)
 {
 	if (get_time() - p->last_meal > p->data->time_die)
 	{
+		p->is_dead = 1;
 		message("has died", p);
-		// return (1);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	return 0;
 }
@@ -56,9 +57,23 @@ int is_sleeping(t_philo *p)
 	ft_usleep(p->data->time_sleep);
 	return (0);
 }
-
 int is_thinking(t_philo *p)
 {
 	message("is thinking", p);
 	return (0);
 }
+
+void *routine(void *arg)
+{
+	t_philo *philo = (t_philo *)arg;
+	while (!is_dead(philo))
+	{
+		if (is_dead(philo))
+			return (0);
+		is_eating(philo);
+		is_sleeping(philo);
+		is_thinking(philo);
+	}
+	return (NULL);
+}
+

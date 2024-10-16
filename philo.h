@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 14:58:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:20:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_data
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
+	int				stop_simulation;
 	t_philo			*p;
 }	t_data;
-
 
 //Initialize
 int	init_philos(t_data *args);
@@ -71,5 +71,10 @@ int is_thinking(t_philo *p);
 int is_sleeping(t_philo *p);
 int is_eating(t_philo *p);
 int is_dead(t_philo *p);
+void *routine(void *arg);
+
+//Monitoring
+int check_death_each_philo(t_data *data);
+void *monitoring(void *arg);
 
 #endif

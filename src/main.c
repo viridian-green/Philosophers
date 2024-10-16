@@ -6,32 +6,24 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 11:50:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:38:07 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void *routine(void *arg)
+void monitor_philos(t_data *data)
 {
-	t_philo *philo = (t_philo *)arg;
-	philo->data->start_time = get_time();
-	while (!is_dead(philo))
-	{
-		if (is_dead(philo))
-			return (0);
-		is_eating(philo);
-		is_sleeping(philo);
-		is_thinking(philo);
-	}
-	return (NULL);
+	pthread_t	monitor;
+	pthread_create(&monitor, NULL, monitoring, &monitor);
+	pthread_join(monitor, NULL);
 }
+
 // TODO : create a mutex for the start time
 int threading_philos(t_data *data)
 {
 	int i = 0;
-
-
+	data->start_time = get_time();
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -41,7 +33,6 @@ int threading_philos(t_data *data)
 	i++;
 	}
 	i = 0;
-	data->start_time = get_time();
  	while (i < data->total_philo)
  	{
 		pthread_join(data->p[i].thread, NULL);
@@ -54,14 +45,28 @@ int parse_args(t_data *data, int argc, char **argv)
 {
 	// if (argc == 4)
 	// {
-	data->total_philo = 12;
-	data->time_die = 200;
+	data->total_philo = 5;
+	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;
+	data->stop_simulation = 0;
 	return (0);
 	// }
 	// else
 	// 	return (1);
+}
+
+void free_all(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->total_philo)
+	{
+		free(data->p);
+		i++;
+	}
+	free(data);
 }
 
 int main(int argc, char **argv)
@@ -76,6 +81,7 @@ int main(int argc, char **argv)
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
 	threading_philos(data);
+	monitor_philos(data);
 	destroy_mutex(data);
-	free(data);
+	free_all(data);
 }

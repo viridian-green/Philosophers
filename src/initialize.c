@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 14:59:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:37:32 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int init_forks(t_data *data)
 }
 
 //Function that initializes the data for each philosopher
+//TODO: Delete the stuff that I commented out
 int	init_philos(t_data *data)
 {
 	int i = 0;

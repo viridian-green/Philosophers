@@ -1,4 +1,9 @@
-Fix Makefile
 Understand the point of monitoring
 
-Philosophers should not die and eat at the same time!!
+Philosophers should not die and eat at the same time!! Create a mutex for it
+
+Fix the start the start time
+
+TESTS:
+4 310 200 100. One philosopher should die.
+Test 1 800 200 200. The philosopher should not eat and should die.
