@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 13:38:07 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:46:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void monitor_philos(t_data *data)
 int threading_philos(t_data *data)
 {
 	int i = 0;
-	data->start_time = get_time();
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -33,6 +32,7 @@ int threading_philos(t_data *data)
 	i++;
 	}
 	i = 0;
+	data->start_time = get_time();
  	while (i < data->total_philo)
  	{
 		pthread_join(data->p[i].thread, NULL);
@@ -45,11 +45,17 @@ int parse_args(t_data *data, int argc, char **argv)
 {
 	// if (argc == 4)
 	// {
-	data->total_philo = 5;
+	// data->total_philo = 4;
+	// data->time_die = 310;
+	// data->time_eat = 200;
+	// data->time_sleep = 100;
+	// data->stop_simulation = 0;
+	data->total_philo = 56;
 	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;
 	data->stop_simulation = 0;
+	// 4 410 200 200
 	return (0);
 	// }
 	// else

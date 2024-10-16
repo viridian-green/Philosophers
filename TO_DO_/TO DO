@@ -1,4 +1,4 @@
-Understand the point of monitoring
+Monitoring: to check if philosophers have died in a faster way
 
 Philosophers should not die and eat at the same time!! Create a mutex for it
 
