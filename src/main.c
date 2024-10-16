@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 15:28:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:50:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void *routine(void *arg)
 {
 	t_philo *philo = (t_philo *)arg;
+	philo->data->start_time = get_time();
 	while (!is_dead(philo))
 	{
 		if (is_dead(philo))
@@ -25,14 +26,12 @@ void *routine(void *arg)
 	}
 	return (NULL);
 }
-
-
-//MOve my start time
+// TODO : create a mutex for the start time
 int threading_philos(t_data *data)
 {
 	int i = 0;
 
-	// data->start_time = get_time();
+
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -42,6 +41,7 @@ int threading_philos(t_data *data)
 	i++;
 	}
 	i = 0;
+	data->start_time = get_time();
  	while (i < data->total_philo)
  	{
 		pthread_join(data->p[i].thread, NULL);
