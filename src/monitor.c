@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 13:41:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:45:21 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void *monitoring(void *arg)
 		pthread_mutex_lock(&data->dead_lock);
 		if (check_death_each_philo(data))
 		{
+			message("has died", data->p);
 			data->stop_simulation = 1;
 			break;
 		}
