@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 13:46:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:19:11 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int parse_args(t_data *data, int argc, char **argv)
 	// data->time_eat = 200;
 	// data->time_sleep = 100;
 	// data->stop_simulation = 0;
-	data->total_philo = 56;
+	data->total_philo = 200;
 	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;

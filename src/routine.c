@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 12:58:15 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:19:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int is_dead(t_philo *p)
 {
 	if (get_time() - p->last_meal > p->data->time_die)
 	{
+		printf("------>hey");
 		p->is_dead = 1;
 		message("has died", p);
 		return (1);
