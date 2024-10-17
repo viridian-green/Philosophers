@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/17 12:19:11 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:57:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,7 @@ int parse_args(t_data *data, int argc, char **argv)
 {
 	// if (argc == 4)
 	// {
-	// data->total_philo = 4;
-	// data->time_die = 310;
-	// data->time_eat = 200;
-	// data->time_sleep = 100;
-	// data->stop_simulation = 0;
-	data->total_philo = 200;
+	data->total_philo = 1;
 	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;
@@ -87,7 +82,6 @@ int main(int argc, char **argv)
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
 	threading_philos(data);
-	monitor_philos(data);
 	destroy_mutex(data);
 	free_all(data);
 }
