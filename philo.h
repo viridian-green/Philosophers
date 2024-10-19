@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 13:20:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:49:09 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philo
 	pthread_t	thread;
 	pthread_mutex_t	*r_f;
 	pthread_mutex_t	*l_f;
+	int	meals_eaten;
 	int		is_dead;
 	int		is_eating;
 	long 	last_meal;

@@ -6,23 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/17 15:45:21 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:06:50 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-int check_death_each_philo(t_data *data)
-{
-	int i = 0;
-	while (i < data->total_philo)
-	{
-		if (is_dead(&data->p[i]))
-			return (1);
-		i++;
-	}
-	return 0;
-}
 
 void *monitoring(void *arg)
 {
@@ -30,19 +18,22 @@ void *monitoring(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&data->dead_lock);
-		if (check_death_each_philo(data))
+		int i;
+		i = 0;
+		while (i < data->total_philo)
 		{
-			message("has died", data->p);
-			data->stop_simulation = 1;
-			break;
+			pthread_mutex_lock(&data->dead_lock);
+			if (is_dead(&data->p[i]))
+			{
+				data->stop_simulation = 1;
+				break;
+			}
+			pthread_mutex_unlock(&data->dead_lock);
+			i++;
 		}
-		pthread_mutex_unlock(&data->dead_lock);
 		if (data->stop_simulation)
-		{
-            break; // Exit monitoring loop
-        }
-		ft_usleep(100);
+			break;
+		usleep(1000);  // Avoid busy-waiting
 	}
 	return (NULL);
 }
