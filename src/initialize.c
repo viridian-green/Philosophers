@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/16 13:37:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:00:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	init_philos(t_data *data)
 	while (i < data->total_philo)
 	{
 		data->p[i].id = i + 1;
+		if (data->p[i].id % 2 == 0)
+			data->p[i].is_even = 1;
 		data->p[i].data = data;
 		data->p[i].last_meal = global_start_time;
 		data->p[i].has_eaten = 0;

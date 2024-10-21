@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:21:09 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:58:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,22 @@
 //Double check if function is correct
 int is_dead(t_philo *p)
 {
+	pthread_mutex_lock(&p->data->dead_lock);
 	if (get_time() - p->last_meal > p->data->time_die)
 	//&& !(p->is_eating))
 	{
 		p->is_dead = 1;
 		message("has died", p);
+		pthread_mutex_unlock(&p->data->dead_lock);
 		return (1);
 	}
+	pthread_mutex_unlock(&p->data->dead_lock);
 	return 0;
 }
 
 void lock_forks(t_philo *p)
 {
-	if (p->id % 2 == 0)
+	if (p->is_even)
 	{
 		pthread_mutex_lock(p->l_f);
 		message("has taken a fork", p);
@@ -35,6 +38,7 @@ void lock_forks(t_philo *p)
 		message("has taken a fork", p);
 	} else
 	{
+		ft_usleep(10);
 		pthread_mutex_lock(p->r_f);
 		message("has taken a fork", p);
 		pthread_mutex_lock(p->l_f);
@@ -74,7 +78,6 @@ int is_thinking(t_philo *p)
 int is_dead_or_done(t_data *data)
 {
     int i;
-
     // Lock mutex to check meal count safely
     pthread_mutex_lock(&data->meal_lock);
     i = 0;
@@ -97,8 +100,6 @@ void *routine(void *arg)
 	t_philo *philo = (t_philo *)arg;
 	while (!is_dead(philo))
 	{
-		if (philo->id % 2 == 0)
-			ft_usleep(1);
 		if (is_dead_or_done(philo->data))  // Check again before eating
             return (NULL);
 		is_eating(philo);

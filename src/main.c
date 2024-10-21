@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:08:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:48:31 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,6 @@ int parse_args(t_data *data, int argc, char **argv)
 	// 	return (1);
 }
 
-void free_all(t_data *data)
-{
-	int i;
-
-	i = 0;
-	while (i < data->total_philo)
-	{
-		free(data->p);
-		i++;
-	}
-	free(data);
-}
-
 int main(int argc, char **argv)
 {
 	t_data	*data;
@@ -84,8 +71,9 @@ int main(int argc, char **argv)
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
-	// monitor_philos(data);
+
 	threading_philos(data);
+	monitor_philos(data);
 	destroy_mutex(data);
 	free_all(data);
 }

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:09:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:59:18 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_philo
 	pthread_mutex_t	*r_f;
 	pthread_mutex_t	*l_f;
 	int	meals_eaten;
+	int is_even;
 	int		is_dead;
 	int		is_eating;
 	long 	last_meal;
@@ -59,6 +60,7 @@ int init_forks(t_data *args);
 //Error/memory
 int exit_error(char *error_message);
 void destroy_mutex(t_data *data);
+void free_all(t_data *data);
 
 //Utils
 int	ft_atoi(const char *nptr);

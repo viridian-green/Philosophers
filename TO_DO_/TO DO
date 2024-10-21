@@ -1,6 +1,8 @@
 Monitoring: to check if philosophers have died in a faster way
 
 
+Figure out meals eaten thing 
+
 Do a hard case for philo == 1;
 
 Philosophers should not die and eat at the same time!! Create a mutex for it
