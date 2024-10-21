@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 13:29:19 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:21:09 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void lock_forks(t_philo *p)
 int is_eating(t_philo *p)
 {
 	lock_forks(p);
+	if (p->meals_eaten == p->data->total_meals)
+		return (1);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->meal_lock);
 	p->last_meal = get_time();
@@ -69,6 +71,25 @@ int is_thinking(t_philo *p)
 	return (0);
 }
 
+int is_dead_or_done(t_data *data)
+{
+    int i;
+
+    // Lock mutex to check meal count safely
+    pthread_mutex_lock(&data->meal_lock);
+    i = 0;
+	while (i++ < data->total_philo)
+	{
+        if (data->p[i].meals_eaten < data->total_meals) {
+            pthread_mutex_unlock(&data->meal_lock);
+            return 0;  // Not done eating
+        }
+    }
+    pthread_mutex_unlock(&data->meal_lock);
+    return 1;  // All philosophers are done eating
+}
+
+
 
 //Do I really need the is_dead
 void *routine(void *arg)
@@ -78,9 +99,10 @@ void *routine(void *arg)
 	{
 		if (philo->id % 2 == 0)
 			ft_usleep(1);
-		if (is_dead(philo))
-			return (0);
+		if (is_dead_or_done(philo->data))  // Check again before eating
+            return (NULL);
 		is_eating(philo);
+			// return NULL;
 		is_sleeping(philo);
 		is_thinking(philo);
 	}

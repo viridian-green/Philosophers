@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/19 17:49:09 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:09:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	pthread_mutex_t	dead_lock;
 	long		start_time;
 	int				total_philo;
+	int				total_meals;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
