@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 11:10:44 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:15:22 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int is_dead(t_philo *p)
 int is_eating(t_philo *p)
 {
 	int i = 0;
-    	pthread_mutex_lock(p->l_f);
-		message("has taken the left fork", p);
-    	pthread_mutex_lock(p->r_f);
-		message("has taken the right fork", p);
+    pthread_mutex_lock(p->l_f);
+	message("has taken the left fork", p);
+    pthread_mutex_lock(p->r_f);
+	message("has taken the right fork", p);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->meal_lock);
 	p->last_meal = get_time();
@@ -40,8 +40,8 @@ int is_eating(t_philo *p)
 	p->is_eating = 1;
 	ft_usleep(p->data->time_eat);
 	p->is_eating = 0;
-	pthread_mutex_unlock(p->r_f);
 	pthread_mutex_unlock(p->l_f);
+	pthread_mutex_unlock(p->r_f);
 	return 0;
 }
 
@@ -66,7 +66,7 @@ void *routine(void *arg)
 			ft_usleep(100);
 		if (is_dead(philo))
 			return (0);
-		is_eating(philo);
+		// is_eating(philo);
 		is_sleeping(philo);
 		is_thinking(philo);
 	}

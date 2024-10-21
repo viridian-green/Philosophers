@@ -1,7 +1,6 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror -pthread
-#-fsanitize=thread
+FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 
 SRC = src/main.c src/initialize.c src/utils_philo.c  src/error_memory.c src/utils_libft.c \
 	src/routine.c src/monitor.c

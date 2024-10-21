@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 11:06:41 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:20:42 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int threading_philos(t_data *data)
 	i++;
 	}
 	i = 0;
-
  	while (i < data->total_philo)
  	{
 		pthread_join(data->p[i].thread, NULL);
