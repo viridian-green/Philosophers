@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 11:59:09 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:00:22 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int is_dead(t_philo *p)
 	}
 	return 0;
 }
-
-//Look at who is grabbing the fork
 int is_eating(t_philo *p)
 {
 	int i = 0;
