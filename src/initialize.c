@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 16:00:12 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:17:32 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	init_philos(t_data *data)
 		data->p[i].id = i + 1;
 		if (data->p[i].id % 2 == 0)
 			data->p[i].is_even = 1;
+		data->p[i].meals_eaten = 0;
 		data->p[i].data = data;
 		data->p[i].last_meal = global_start_time;
 		data->p[i].has_eaten = 0;
@@ -67,10 +68,10 @@ int data_init(t_data *data, char **argv)
 	if (init_forks(data) || init_philos(data))
 		return (-1);
 	if (pthread_mutex_init(&data->write_mutex, NULL) != 0)
-        perror("Writelock mutex initialization failed");
+		perror("Writelock mutex initialization failed");
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-        perror("Meallock mutex initialization failed");
+		perror("Meallock mutex initialization failed");
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-        perror("Deadlock Mutex initialization failed");
+		perror("Deadlock Mutex initialization failed");
 	return (0);
 }

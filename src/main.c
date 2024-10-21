@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 16:27:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:45:11 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void monitor_philos(t_data *data)
 int threading_philos(t_data *data)
 {
 	int i = 0;
-	// pthread_t	monitor;
-	// pthread_create(&monitor, NULL, monitoring, (void *)data);
+	pthread_t	monitor;
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -33,9 +32,14 @@ int threading_philos(t_data *data)
 	}
 	i++;
 	}
- 	while (i-- > 0)
+	i = 0;
+	pthread_create(&monitor, NULL, monitoring, (void *)data);
+ 	while (i < data->total_philo)
+	{
 		pthread_join(data->p[i].thread, NULL);
-	// pthread_join(monitor, NULL);
+		i++;
+	}
+	pthread_join(monitor, NULL);
 	return (1);
 }
 
@@ -47,7 +51,7 @@ int parse_args(t_data *data, int argc, char **argv)
 	data->time_die = 800;
 	data->time_eat = 200;
 	data->time_sleep = 200;
-	data->total_meals = 7;
+	data->total_meals = 2;
 	// data->total_philo = 1;
 	// data->time_die = 800;
 	// data->time_eat = 200;
@@ -69,7 +73,6 @@ int main(int argc, char **argv)
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
-
 	threading_philos(data);
 	// monitor_philos(data);
 	destroy_mutex(data);

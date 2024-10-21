@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:59:18 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:50:46 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void *routine(void *arg);
 //Monitoring
 int check_death_each_philo(t_data *data);
 void *monitoring(void *arg);
+int is_dead_or_done(t_data *data);
 
 #endif

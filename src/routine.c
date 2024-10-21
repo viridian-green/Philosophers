@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 17:43:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:43:52 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int is_eating(t_philo *p)
 	lock_forks(p);
 	if (p->meals_eaten == p->data->total_meals)
 		return (1);
+	printf("--------> philo id is %d ate %d meals", p->id, p->meals_eaten);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->meal_lock);
 	p->last_meal = get_time();
-	p->is_eating = 1;
 	p->meals_eaten += 1;
 	pthread_mutex_unlock(&p->data->meal_lock);
 	p->is_eating = 0;
@@ -77,31 +77,42 @@ int is_thinking(t_philo *p)
 int is_dead_or_done(t_data *data)
 {
     int i;
+	int counter;
+
+	counter = 0;
     // Lock mutex to check meal count safely
     pthread_mutex_lock(&data->meal_lock);
     i = 0;
-	while (i++ < data->total_philo)
+	while (i < data->total_philo)
 	{
-        if (data->p[i].meals_eaten < data->total_meals) {
-            pthread_mutex_unlock(&data->meal_lock);
-            return 0;  // Not done eating
+        if (data->p[i].meals_eaten > data->total_meals)
+		{
+			printf("----------> meals: %d \n", data->p[i].meals_eaten);
+			counter++;
+            // pthread_mutex_unlock(&data->meal_lock);
         }
+		i++;
     }
+	printf("counter %d\n", counter);
+	if (counter == data->total_philo)
+		return 0;
     pthread_mutex_unlock(&data->meal_lock);
     return 1;  // All philosophers are done eating
 }
 
 //Do I really need the is_dead
+//TODO : problem here
 void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
-	while (!is_dead(p) && !(p->meals_eaten >= p->data->total_meals))
+	while (!is_dead(p) || !(is_dead_or_done(p->data)))
 	{
-		is_eating(p);
 		is_sleeping(p);
 		is_thinking(p);
+		is_eating(p);
 	}
+	printf("------------------------------------------->exit loops");
 	return (NULL);
 }
 
