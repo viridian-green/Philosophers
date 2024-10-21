@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 13:05:27 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:25:32 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,14 @@ int parse_args(t_data *data, int argc, char **argv)
 	// if (argc == 4)
 	// {
 	data->total_philo = 5;
-	data->time_die = 100;
+	data->time_die = 800;
 	data->time_eat = 200;
-	data->time_sleep = 100;
+	data->time_sleep = 200;
 	data->stop_simulation = 0;
 	// data->total_philo = 1;
 	// data->time_die = 800;
 	// data->time_eat = 200;
 	// data->time_sleep = 200;
-	data->stop_simulation = 0;
 	// 4 410 200 200
 	return (0);
 	// }
@@ -77,18 +76,16 @@ void free_all(t_data *data)
 
 int main(int argc, char **argv)
 {
-	//make a monitor in a thread
-	t_data *data;
-	int i = 0;
+	t_data	*data;
+
 	data = malloc(sizeof(t_data));
 	if (data == NULL)
 		return exit_error("Error allocating memory for data\n");
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
-	monitor_philos(data);
+	// monitor_philos(data);
 	threading_philos(data);
-
 	destroy_mutex(data);
 	free_all(data);
 }
