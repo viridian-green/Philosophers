@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 12:05:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:37:42 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int threading_philos(t_data *data)
 {
 	int i = 0;
 	data->start_time = get_time();
+	//Set time also for philosophers
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
