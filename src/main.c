@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 12:14:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:05:27 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void monitor_philos(t_data *data)
 {
 	pthread_t	monitor;
 	pthread_create(&monitor, NULL, monitoring, &data);
-	pthread_join(monitor, NULL);
+	// pthread_join(monitor, NULL);
 }
 
 // TODO : create a mutex for the start time
@@ -86,8 +86,9 @@ int main(int argc, char **argv)
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);
-	threading_philos(data);
 	monitor_philos(data);
+	threading_philos(data);
+
 	destroy_mutex(data);
 	free_all(data);
 }

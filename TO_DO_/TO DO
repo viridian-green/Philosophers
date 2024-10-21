@@ -1,8 +1,9 @@
 Monitoring: to check if philosophers have died in a faster way
 
-Philosophers should not die and eat at the same time!! Create a mutex for it
 
-Check on the start the start time
+Do a hard case for philo == 1;
+
+Philosophers should not die and eat at the same time!! Create a mutex for it
 
 TESTS:
 4 310 200 100. One philosopher should die.

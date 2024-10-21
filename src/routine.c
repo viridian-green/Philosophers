@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 12:14:26 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:08:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int is_dead(t_philo *p)
 	//&& !(p->is_eating)
 	{
 		p->is_dead = 1;
-		message("has died", p);
+		// message("has died", p);
 		return (1);
 	}
 	return 0;
@@ -42,20 +42,14 @@ int is_eating(t_philo *p)
 		message("has taken the left fork", p);
 	}
 	message("is eating", p);
-	pthread_mutex_unlock(&p->data->meal_lock);
-	p->last_meal = get_time();
 	pthread_mutex_lock(&p->data->meal_lock);
+	p->last_meal = get_time();
+	p->is_eating = 1;
+	p->meals_eaten += 1;
+	pthread_mutex_unlock(&p->data->meal_lock);
 	ft_usleep(p->data->time_eat);
-	if (p->id % 2 == 0)
-	{
-	pthread_mutex_unlock(p->l_f);
-	pthread_mutex_unlock(p->r_f);
-	}
-	else
-	{
 	pthread_mutex_unlock(p->r_f);
 	pthread_mutex_unlock(p->l_f);
-	}
 	return 0;
 }
 
@@ -76,9 +70,12 @@ void *routine(void *arg)
 	t_philo *philo = (t_philo *)arg;
 	while (!is_dead(philo))
 	{
+		if (philo->id % 2 == 0)
+			ft_usleep(1);
 		if (is_dead(philo))
 			return (0);
 		is_eating(philo);
+
 		is_sleeping(philo);
 		is_thinking(philo);
 	}
