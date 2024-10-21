@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:58:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:43:35 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->dead_lock);
-	if (get_time() - p->last_meal > p->data->time_die)
-	//&& !(p->is_eating))
+	if (get_time() - p->last_meal > p->data->time_die && !(p->is_eating))
 	{
 		p->is_dead = 1;
 		message("has died", p);
@@ -92,20 +91,16 @@ int is_dead_or_done(t_data *data)
     return 1;  // All philosophers are done eating
 }
 
-
-
 //Do I really need the is_dead
 void *routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg;
-	while (!is_dead(philo))
+	t_philo *p = (t_philo *)arg;
+	p->data->start_time = get_time();
+	while (!is_dead(p) && !(p->meals_eaten >= p->data->total_meals))
 	{
-		if (is_dead_or_done(philo->data))  // Check again before eating
-            return (NULL);
-		is_eating(philo);
-			// return NULL;
-		is_sleeping(philo);
-		is_thinking(philo);
+		is_eating(p);
+		is_sleeping(p);
+		is_thinking(p);
 	}
 	return (NULL);
 }

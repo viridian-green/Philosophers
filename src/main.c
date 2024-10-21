@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:48:31 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:27:32 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 void monitor_philos(t_data *data)
 {
 	pthread_t	monitor;
-	pthread_create(&monitor, NULL, monitoring, &data);
-	// pthread_join(monitor, NULL);
+	pthread_create(&monitor, NULL, monitoring, (void *)data);
+	pthread_join(monitor, NULL);
 }
 
 // TODO : create a mutex for the start time
 int threading_philos(t_data *data)
 {
 	int i = 0;
-	data->start_time = get_time();
+	// pthread_t	monitor;
+	// pthread_create(&monitor, NULL, monitoring, (void *)data);
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -32,12 +33,9 @@ int threading_philos(t_data *data)
 	}
 	i++;
 	}
-	i = 0;
- 	while (i < data->total_philo)
- 	{
+ 	while (i-- > 0)
 		pthread_join(data->p[i].thread, NULL);
-		i++;
-	}
+	// pthread_join(monitor, NULL);
 	return (1);
 }
 
@@ -73,7 +71,7 @@ int main(int argc, char **argv)
 	data_init(data, argv);
 
 	threading_philos(data);
-	monitor_philos(data);
+	// monitor_philos(data);
 	destroy_mutex(data);
 	free_all(data);
 }

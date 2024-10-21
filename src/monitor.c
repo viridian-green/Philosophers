@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:46:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:12:31 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ void *monitoring(void *arg)
 			if (is_dead(&data->p[i]))
 			{
 				data->stop_simulation = 1;
-				break;
+				pthread_mutex_unlock(&data->dead_lock);
+				return (arg);
 			}
 			pthread_mutex_unlock(&data->dead_lock);
 			i++;
 		}
-		if (data->stop_simulation)
-			break;
 		usleep(1000);  // Avoid busy-waiting
 	}
-	return (NULL);
+	return (arg);
 }
