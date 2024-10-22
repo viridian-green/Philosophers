@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 18:37:10 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:15:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ void *monitoring(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		ft_usleep(1000);
-		printf("HELLO");
+		ft_usleep(100);
 		int i;
 		i = 0;
 		while (i < data->total_philo)
 		{
-		if (is_dead_or_done(data))
-        {
-			printf("------------------------------------------->exit m loops");
-            return (NULL);
-        }
+			if (is_dead_or_done(data))
+    		{
+				printf("------------------------------------------->exit m loops");
+            	return (NULL);
+        	}
 			pthread_mutex_lock(&data->dead_lock);
 			if (is_dead(&data->p[i]))
 			{

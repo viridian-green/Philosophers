@@ -6,7 +6,7 @@ SRC = src/main.c src/initialize.c src/utils_philo.c  src/error_memory.c src/util
 	src/routine.c src/monitor.c
 OBJ = $(SRC:.c=.o)
 
-all = $(NAME)
+all : $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
