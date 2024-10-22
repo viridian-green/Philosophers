@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/22 16:15:10 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:37:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void *monitoring(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		ft_usleep(100);
+		ft_usleep(1000);
 		int i;
 		i = 0;
 		while (i < data->total_philo)

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/22 16:02:21 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:01:56 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int is_eating(t_philo *p)
 	p->last_meal = get_time();
 	p->meals_eaten += 1;
 	pthread_mutex_unlock(&p->data->meal_lock);
-	if (p->meals_eaten == p->data->total_meals)
+	if (p->meals_eaten * p->data->total_meals == p->data->total_meals)
 		return (1);
 	p->is_eating = 0;
 	ft_usleep(p->data->time_eat);
@@ -69,6 +69,8 @@ int is_sleeping(t_philo *p)
 }
 int is_thinking(t_philo *p)
 {
+	if (p->data->time_die < (p->data->time_eat || p->data->time_sleep))
+		ft_usleep(100);
 	message("is thinking", p);
 	return (0);
 }
@@ -79,16 +81,19 @@ int is_dead_or_done(t_data *data)
 
 	i = 0;
 
+	int all_eaten_meals;
     while (i < data->total_philo) // Changed from i++ < data->total_philo
     {
 		 pthread_mutex_lock(&data->meal_lock);
-        if (data->p[i].meals_eaten < data->total_meals) {
-            pthread_mutex_unlock(&data->meal_lock);
+        if (data->p[i].meals_eaten == data->total_meals)
+		{
+            all_eaten_meals++;
             return 0;  // Not done eating
         }
 		pthread_mutex_unlock(&data->meal_lock);
 		i++;
     }
+	printf("-----> ended function");
     return 1;  // All philosophers are done eating
 }
 
@@ -98,7 +103,7 @@ void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
-	while (!is_dead(p) || !(is_dead_or_done(p->data)))
+	while (!is_dead(p))
 	{
 		is_eating(p);
 		is_sleeping(p);
