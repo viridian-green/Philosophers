@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 16:27:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:33:06 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,18 @@ int threading_philos(t_data *data)
 
 int parse_args(t_data *data, int argc, char **argv)
 {
-	// if (argc == 4)
-	// {
-	data->total_philo = 5;
-	data->time_die = 800;
-	data->time_eat = 200;
-	data->time_sleep = 200;
-	data->total_meals = 7;
-	// data->total_philo = 1;
-	// data->time_die = 800;
-	// data->time_eat = 200;
-	// data->time_sleep = 200;
-	// 4 410 200 200
-	return (0);
-	// }
-	// else
-	// 	return (1);
+    if (argc == 5 || argc == 6)
+    {
+    data->total_philo = ft_atoi(argv[1]);
+    data->time_die = ft_atoi(argv[2]);
+    data->time_eat = ft_atoi(argv[3]);
+    data->time_sleep = ft_atoi(argv[4]);
+    if (argc == 6)
+        data->total_meals = ft_atoi(argv[5]);
+    return (0);
+    }
+    else
+        return 1;
 }
 
 int main(int argc, char **argv)

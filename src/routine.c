@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 17:43:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:40:04 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void lock_forks(t_philo *p)
 int is_eating(t_philo *p)
 {
 	lock_forks(p);
-	if (p->meals_eaten == p->data->total_meals)
-		return (1);
+	// if (p->meals_eaten == p->data->total_meals)
+	// 	return (1);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->meal_lock);
 	p->last_meal = get_time();
@@ -80,12 +80,13 @@ int is_dead_or_done(t_data *data)
     // Lock mutex to check meal count safely
     pthread_mutex_lock(&data->meal_lock);
     i = 0;
-	while (i++ < data->total_philo)
+	while (i < data->total_philo)
 	{
         if (data->p[i].meals_eaten < data->total_meals) {
             pthread_mutex_unlock(&data->meal_lock);
             return 0;  // Not done eating
         }
+		i++;
     }
     pthread_mutex_unlock(&data->meal_lock);
     return 1;  // All philosophers are done eating
@@ -96,7 +97,7 @@ void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
-	while (!is_dead(p) && !(p->meals_eaten >= p->data->total_meals))
+	while (!is_dead(p) || !is_dead_or_done(p->data))
 	{
 		is_eating(p);
 		is_sleeping(p);
