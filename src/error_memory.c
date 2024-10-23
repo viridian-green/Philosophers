@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:33:11 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:02:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ void destroy_mutex(t_data *data)
 		i++;
 	}
 	pthread_mutex_destroy(&data->write_mutex);
-	pthread_mutex_destroy(&data->meal_lock);
-	// pthread_mutex_destroy(&data->dead_lock);
+	pthread_mutex_destroy(&data->mutex);
 }

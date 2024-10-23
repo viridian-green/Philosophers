@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 15:59:18 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:11:35 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 {
 	pthread_mutex_t *fork;
 	pthread_mutex_t write_mutex;
-	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	mutex;
 	pthread_mutex_t	dead_lock;
 	long		start_time;
 	int				total_philo;
@@ -76,6 +76,7 @@ int is_sleeping(t_philo *p);
 int is_eating(t_philo *p);
 int is_dead(t_philo *p);
 void *routine(void *arg);
+int all_philos_done_eating(t_data *data);
 
 //Monitoring
 int check_death_each_philo(t_data *data);

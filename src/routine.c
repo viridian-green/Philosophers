@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 12:40:04 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:21:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 //Double check if function is correct
 int is_dead(t_philo *p)
 {
-	pthread_mutex_lock(&p->data->dead_lock);
+	pthread_mutex_lock(&p->data->mutex);
 	if (get_time() - p->last_meal > p->data->time_die && !(p->is_eating))
 	{
 		p->is_dead = 1;
 		message("has died", p);
-		pthread_mutex_unlock(&p->data->dead_lock);
+		pthread_mutex_unlock(&p->data->mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&p->data->dead_lock);
+	pthread_mutex_unlock(&p->data->mutex);
 	return 0;
 }
 
@@ -50,11 +50,11 @@ int is_eating(t_philo *p)
 	// if (p->meals_eaten == p->data->total_meals)
 	// 	return (1);
 	message("is eating", p);
-	pthread_mutex_lock(&p->data->meal_lock);
+	pthread_mutex_lock(&p->data->mutex);
 	p->last_meal = get_time();
 	p->is_eating = 1;
 	p->meals_eaten += 1;
-	pthread_mutex_unlock(&p->data->meal_lock);
+	pthread_mutex_unlock(&p->data->mutex);
 	p->is_eating = 0;
 	ft_usleep(p->data->time_eat);
 	pthread_mutex_unlock(p->r_f);
@@ -74,22 +74,32 @@ int is_thinking(t_philo *p)
 	return (0);
 }
 
-int is_dead_or_done(t_data *data)
+int all_philos_done_eating(t_data *data)
 {
     int i;
-    // Lock mutex to check meal count safely
-    pthread_mutex_lock(&data->meal_lock);
+	int sum_of_meals = 0;
+
+    pthread_mutex_lock(&data->mutex);
     i = 0;
 	while (i < data->total_philo)
 	{
-        if (data->p[i].meals_eaten < data->total_meals) {
-            pthread_mutex_unlock(&data->meal_lock);
-            return 0;  // Not done eating
+		printf("enter loop");
+        if (data->p[i].meals_eaten == data->total_meals)
+		{
+            sum_of_meals++;
         }
 		i++;
     }
-    pthread_mutex_unlock(&data->meal_lock);
-    return 1;  // All philosophers are done eating
+	printf("--->%d", sum_of_meals);
+	printf("leave loop");
+    pthread_mutex_unlock(&data->mutex);
+	if (sum_of_meals == data->total_philo)
+	{
+		printf("---------------->done eating!");
+ 		return 1;
+	}
+	else
+		return 0;
 }
 
 //Do I really need the is_dead
@@ -97,7 +107,7 @@ void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
-	while (!is_dead(p) || !is_dead_or_done(p->data))
+	while (!is_dead(p) || !all_philos_done_eating(p->data))
 	{
 		is_eating(p);
 		is_sleeping(p);

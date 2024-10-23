@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/21 16:00:12 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:54:06 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int init_forks(t_data *data)
 }
 
 //Function that initializes the data for each philosopher
-//TODO: Delete the stuff that I commented out
 int	init_philos(t_data *data)
 {
 	int i = 0;
@@ -68,9 +67,7 @@ int data_init(t_data *data, char **argv)
 		return (-1);
 	if (pthread_mutex_init(&data->write_mutex, NULL) != 0)
         perror("Writelock mutex initialization failed");
-	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-        perror("Meallock mutex initialization failed");
-	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-        perror("Deadlock Mutex initialization failed");
+	if (pthread_mutex_init(&data->mutex, NULL) != 0)
+        perror("Data mutex initialization failed");
 	return (0);
 }
