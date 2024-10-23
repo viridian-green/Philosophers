@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:21:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:51:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,18 @@ int is_eating(t_philo *p)
 	p->is_eating = 1;
 	p->meals_eaten += 1;
 	pthread_mutex_unlock(&p->data->mutex);
-	p->is_eating = 0;
 	ft_usleep(p->data->time_eat);
-	pthread_mutex_unlock(p->r_f);
-	pthread_mutex_unlock(p->l_f);
+	p->is_eating = 0;
+	if (p->is_even)
+	{
+		pthread_mutex_unlock(p->l_f);
+		pthread_mutex_unlock(p->r_f);
+	}
+	else
+	{
+		pthread_mutex_unlock(p->r_f);
+		pthread_mutex_unlock(p->l_f);
+	}
 	return 0;
 }
 
@@ -83,7 +91,7 @@ int all_philos_done_eating(t_data *data)
     i = 0;
 	while (i < data->total_philo)
 	{
-		printf("enter loop");
+		printf("enter loop\n");
         if (data->p[i].meals_eaten == data->total_meals)
 		{
             sum_of_meals++;
@@ -91,7 +99,7 @@ int all_philos_done_eating(t_data *data)
 		i++;
     }
 	printf("--->%d", sum_of_meals);
-	printf("leave loop");
+	printf("leave loop\n");
     pthread_mutex_unlock(&data->mutex);
 	if (sum_of_meals == data->total_philo)
 	{
@@ -107,8 +115,10 @@ void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
-	while (!is_dead(p) || !all_philos_done_eating(p->data))
+	int loop = 0;
+	while (1)
 	{
+		printf("loops%d\n", loop++);
 		is_eating(p);
 		is_sleeping(p);
 		is_thinking(p);

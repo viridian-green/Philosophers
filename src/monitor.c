@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:23:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:54:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void *monitoring(void *arg)
 		i = 0;
 		while (i < data->total_philo)
 		{
+			printf("looping monitor\n");
+
 			if (all_philos_done_eating(data))
 				return (arg);
 			pthread_mutex_lock(&data->mutex);
@@ -35,7 +37,7 @@ void *monitoring(void *arg)
 			pthread_mutex_unlock(&data->mutex);
 			i++;
 		}
-		usleep(1000);
+		usleep(10);
 	}
 	return (arg);
 }
