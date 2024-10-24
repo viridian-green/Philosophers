@@ -6,37 +6,36 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 11:48:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:54:28 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void monitoring(t_data *data)
+int monitoring(t_data *data)
 {
-	usleep(1000);
+	int done = 0;
+	usleep(100);
 	while (1)
-	{ // Avoid busy-waiting
+	{
 		int i;
 		i = 0;
 		while (i < data->total_philo)
 		{
-			printf("looping monitor\n");
-
 			if (all_philos_done_eating(data))
+			{
+				printf("----------------->YES");
+				data->stop_simulation = 1;
+				done = 1;
 				break;
-			// pthread_mutex_lock(&data->mutex);
-			// if (is_dead(&data->p[i]))
-			// {
-			// 	data->stop_simulation = 1;
-			// 	pthread_mutex_unlock(&data->mutex);
-			// 	break;
-			// }
-			// pthread_mutex_unlock(&data->mutex);
+			}
 			i++;
 		}
+		if (done)
+			break;
 		usleep(10);
 	}
+	return 1;
 }
 
 

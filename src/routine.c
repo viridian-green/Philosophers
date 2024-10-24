@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 11:51:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:53:54 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void lock_forks(t_philo *p)
 		message("has taken a fork", p);
 	} else
 	{
-		ft_usleep(10);
 		pthread_mutex_lock(p->r_f);
 		message("has taken a fork", p);
 		pthread_mutex_lock(p->l_f);
@@ -47,8 +46,6 @@ void lock_forks(t_philo *p)
 int is_eating(t_philo *p)
 {
 	lock_forks(p);
-	// if (p->meals_eaten == p->data->total_meals)
-	// 	return (1);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->mutex);
 	p->last_meal = get_time();
@@ -92,15 +89,15 @@ int all_philos_done_eating(t_data *data)
 	while (i < data->total_philo)
 	{
 		pthread_mutex_lock(&data->mutex);
-		printf("enter loop\n");
         if (data->p[i].meals_eaten == data->total_meals)
 		{
             sum_of_meals++;
         }
+		pthread_mutex_unlock(&data->mutex);
 		i++;
     }
-	printf("--->%d", sum_of_meals);
-	printf("leave loop\n");
+	// printf("------------------>%d", sum_of_meals);
+	// printf("leave loop\n");
     // pthread_mutex_unlock(&data->mutex);
 	if (sum_of_meals == data->total_philo)
 	{
@@ -117,12 +114,15 @@ void *routine(void *arg)
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (!all_philos_done_eating(p->data) || !is_dead(p))
+	while (!all_philos_done_eating(p->data))
 	{
-		printf("loops%d\n", loop++);
 		is_eating(p);
 		is_sleeping(p);
 		is_thinking(p);
+		if (p->data->stop_simulation)
+		{
+			break;
+		}
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 15:54:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:53:11 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	init_philos(t_data *data)
 			data->p[i].is_even = 1;
 		data->p[i].data = data;
 		data->p[i].last_meal = global_start_time;
-		data->p[i].has_eaten = 0;
+		data->p[i].is_eating = 0;
 		data->p[i].is_dead = 0;
 		data->p[i].l_f = &data->fork[i];
 		data->p[i].r_f = &data->fork[(i + 1) % data->total_philo];
@@ -60,6 +60,11 @@ int	init_philos(t_data *data)
 	}
 	return (0);
 }
+
+// init_data(t_data *data)
+// {
+// 	data->stop_simulation = 0;
+// }
 
 int data_init(t_data *data, char **argv)
 {
