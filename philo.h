@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:11:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:23:42 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ int all_philos_done_eating(t_data *data);
 
 //Monitoring
 int check_death_each_philo(t_data *data);
-void *monitoring(void *arg);
+void monitoring(t_data *data);
 
 #endif

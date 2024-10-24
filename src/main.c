@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:55:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:23:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ void monitor_philos(t_data *data)
 	pthread_join(monitor, NULL);
 }
 
-// TODO : create a mutex for the start time
 int threading_philos(t_data *data)
 {
 	int i = 0;
-	pthread_t	monitor;
-	pthread_create(&monitor, NULL, monitoring, (void *)data);
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
@@ -34,30 +31,12 @@ int threading_philos(t_data *data)
 	i++;
 	}
 	printf("escape\n");
+	monitoring(&data);
 //Monitor function here
  	while (i-- > 0)
 		pthread_join(data->p[i].thread, NULL);
-	pthread_join(monitor, NULL);
 	return (1);
 }
-
-// int threading_philos(t_data *data)
-// {
-// 	int i = 0;
-// 	while (i < data->total_philo)
-// 	{
-// 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
-// 	{
-// 		return exit_error("Thread creation failed\n");
-// 	}
-// 	i++;
-// 	}
-
-// //Monitor function here
-//  	while (i-- > 0)
-// 		pthread_join(data->p[i].thread, NULL);
-// 	return (1);
-// }
 
 int parse_args(t_data *data, int argc, char **argv)
 {

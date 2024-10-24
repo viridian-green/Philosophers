@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:51:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:51:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ int all_philos_done_eating(t_data *data)
     int i;
 	int sum_of_meals = 0;
 
-    pthread_mutex_lock(&data->mutex);
     i = 0;
+
 	while (i < data->total_philo)
 	{
+		pthread_mutex_lock(&data->mutex);
 		printf("enter loop\n");
         if (data->p[i].meals_eaten == data->total_meals)
 		{
@@ -100,7 +101,7 @@ int all_philos_done_eating(t_data *data)
     }
 	printf("--->%d", sum_of_meals);
 	printf("leave loop\n");
-    pthread_mutex_unlock(&data->mutex);
+    // pthread_mutex_unlock(&data->mutex);
 	if (sum_of_meals == data->total_philo)
 	{
 		printf("---------------->done eating!");
@@ -116,7 +117,7 @@ void *routine(void *arg)
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (1)
+	while (!all_philos_done_eating(p->data) || !is_dead(p))
 	{
 		printf("loops%d\n", loop++);
 		is_eating(p);
