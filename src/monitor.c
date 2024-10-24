@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 14:59:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:31:07 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int monitoring(t_data *data)
 		{
 			if (is_dead(data->p))
 			{
-				// printf("yo");
 				data->stop_simulation = 1;
 				done = 1;
 				break;
