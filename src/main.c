@@ -6,18 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 15:02:04 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:21:56 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-// void monitor_philos(t_data *data)
-// {
-// 	pthread_t	monitor;
-// 	pthread_create(&monitor, NULL, monitoring, (void *)data);
-// 	pthread_join(monitor, NULL);
-// }
 
 int threading_philos(t_data *data)
 {

@@ -6,17 +6,16 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 15:00:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:10:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-//Double check if function is correct
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
-	if (get_time() - p->last_meal > p->data->time_die && !(p->is_eating))
+	if (get_time() - p->last_meal > p->data->time_die && !p->is_eating)
 	{
 		p->is_dead = 1;
 		message("has died", p);

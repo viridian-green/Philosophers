@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/23 16:02:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:22:04 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void free_all(t_data *data)
 		free(data->p);
 		i++;
 	}
-	free(data);
+	// free(data);
 }
 void destroy_mutex(t_data *data)
 {
