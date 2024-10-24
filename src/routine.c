@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 13:53:54 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:00:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,11 @@ void *routine(void *arg)
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (!all_philos_done_eating(p->data))
+	while (!p->data->stop_simulation)
 	{
 		is_eating(p);
 		is_sleeping(p);
 		is_thinking(p);
-		if (p->data->stop_simulation)
-		{
-			break;
-		}
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 13:54:28 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:59:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ int monitoring(t_data *data)
 		i = 0;
 		while (i < data->total_philo)
 		{
+			if (is_dead(data->p))
+			{
+				// printf("yo");
+				data->stop_simulation = 1;
+				done = 1;
+				break;
+			}
 			if (all_philos_done_eating(data))
 			{
-				printf("----------------->YES");
 				data->stop_simulation = 1;
 				done = 1;
 				break;
