@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 11:58:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:15:17 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ int	init_philos(t_data *data)
 	}
 	return (0);
 }
-
-// init_data(t_data *data)
-// {
-// 	data->stop_simulation = 0;
-// }
 
 int data_init(t_data *data, char **argv)
 {

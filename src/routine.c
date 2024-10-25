@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 12:01:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:16:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
-	if (get_time() - p->last_meal > p->data->time_die && !p->is_eating)
+	if (get_time() - p->last_meal >= p->data->time_die && !p->is_eating)
 	{
 		p->data->stop_simulation = 1;
 		p->is_dead = 1;
-		message("died", p);
 		pthread_mutex_unlock(&p->data->mutex);
 		return (1);
 	}
@@ -37,6 +36,7 @@ void lock_forks(t_philo *p)
 		message("has taken a fork", p);
 	} else
 	{
+		ft_usleep(10);
 		pthread_mutex_lock(p->r_f);
 		message("has taken a fork", p);
 		pthread_mutex_lock(p->l_f);
@@ -59,8 +59,6 @@ void unlock_forks(t_philo *p)
 }
 int is_eating(t_philo *p)
 {
-	if (p->is_dead)
-		return 1;
 	lock_forks(p);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->mutex);
@@ -82,6 +80,13 @@ int is_sleeping(t_philo *p)
 int is_thinking(t_philo *p)
 {
 	message("is thinking", p);
+//    if (p->data->time_eat > p->data->time_die)
+//        usleep(100);
+//    else if (p->data->time_die - p->data->time_die - p->data->time_sleep < 0)
+//        usleep(100);
+//    else
+//        usleep((p->data->time_die - p->data->time_eat - \
+//            p->data->time_sleep) / 2 * 100);
 	return (0);
 }
 
