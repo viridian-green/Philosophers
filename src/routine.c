@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/24 15:10:30 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:01:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int is_dead(t_philo *p)
 	pthread_mutex_lock(&p->data->mutex);
 	if (get_time() - p->last_meal > p->data->time_die && !p->is_eating)
 	{
+		p->data->stop_simulation = 1;
 		p->is_dead = 1;
-		message("has died", p);
+		message("died", p);
 		pthread_mutex_unlock(&p->data->mutex);
 		return (1);
 	}
@@ -42,8 +43,24 @@ void lock_forks(t_philo *p)
 		message("has taken a fork", p);
 	}
 }
+
+void unlock_forks(t_philo *p)
+{
+	p->is_eating = 0;
+	if (p->is_even)
+	{
+		pthread_mutex_unlock(p->l_f);
+		pthread_mutex_unlock(p->r_f);
+	} else
+	{
+		pthread_mutex_unlock(p->r_f);
+		pthread_mutex_unlock(p->l_f);
+	}
+}
 int is_eating(t_philo *p)
 {
+	if (p->is_dead)
+		return 1;
 	lock_forks(p);
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->mutex);
@@ -52,17 +69,7 @@ int is_eating(t_philo *p)
 	p->meals_eaten += 1;
 	pthread_mutex_unlock(&p->data->mutex);
 	ft_usleep(p->data->time_eat);
-	p->is_eating = 0;
-	if (p->is_even)
-	{
-		pthread_mutex_unlock(p->l_f);
-		pthread_mutex_unlock(p->r_f);
-	}
-	else
-	{
-		pthread_mutex_unlock(p->r_f);
-		pthread_mutex_unlock(p->l_f);
-	}
+	unlock_forks(p);
 	return 0;
 }
 
@@ -82,7 +89,6 @@ int all_philos_done_eating(t_data *data)
 {
     int i;
 	int sum_of_meals = 0;
-
     i = 0;
 
 	while (i < data->total_philo)
@@ -95,9 +101,6 @@ int all_philos_done_eating(t_data *data)
 		pthread_mutex_unlock(&data->mutex);
 		i++;
     }
-	// printf("------------------>%d", sum_of_meals);
-	// printf("leave loop\n");
-    // pthread_mutex_unlock(&data->mutex);
 	if (sum_of_meals == data->total_philo)
 	{
 		printf("---------------->done eating!");
@@ -107,18 +110,53 @@ int all_philos_done_eating(t_data *data)
 		return 0;
 }
 
-//Do I really need the is_dead
 void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (!p->data->stop_simulation)
-	{
-		is_eating(p);
-		is_sleeping(p);
-		is_thinking(p);
-	}
-	return (NULL);
+	   while (1)
+    	{
+        pthread_mutex_lock(&p->data->mutex);
+        if (p->data->stop_simulation)
+        {
+            pthread_mutex_unlock(&p->data->mutex);
+            break;
+        }
+        pthread_mutex_unlock(&p->data->mutex);
+        is_eating(p);
+        pthread_mutex_lock(&p->data->mutex);
+        if (p->data->stop_simulation)
+        {
+            pthread_mutex_unlock(&p->data->mutex);
+            break;
+        }
+        pthread_mutex_unlock(&p->data->mutex);
+        is_sleeping(p);
+		 pthread_mutex_lock(&p->data->mutex);
+		if (p->data->stop_simulation)
+        {
+            pthread_mutex_unlock(&p->data->mutex);
+            break;
+        }
+		pthread_mutex_unlock(&p->data->mutex);
+        is_thinking(p);
+    }
+    return (NULL);
 }
 
+
+
+// void *routine(void *arg)
+// {
+// 	t_philo *p = (t_philo *)arg;
+// 	p->data->start_time = get_time();
+// 	int loop = 0;
+// 	while (!p->data->stop_simulation)
+// 	{
+// 		is_eating(p);
+// 		is_sleeping(p);
+// 		is_thinking(p);
+// 	}
+// 	return (NULL);
+// }
