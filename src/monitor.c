@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 13:14:18 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:42:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int monitoring(t_data *data)
 		{
 			if (is_dead(data->p) || all_philos_done_eating(data))
 			{
-				message("died", data->p);
 				data->stop_simulation = 1;
 				break;
 			}

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 11:16:24 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:16:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int exit_error(char *error_message)
 
 void free_all(t_data *data)
 {
-	int i;
-	i = 0;
 	free(data->p);
 	free(data->fork);
 	free(data);

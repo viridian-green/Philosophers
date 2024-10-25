@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 13:16:13 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:52:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
-	if (get_time() - p->last_meal >= p->data->time_die && !p->is_eating)
+	if (p->is_eating)
+	{
+		pthread_mutex_unlock(&p->data->mutex);
+		return 0;
+	}
+	if (get_time() - p->last_meal >= p->data->time_die)
 	{
 		p->data->stop_simulation = 1;
 		p->is_dead = 1;
+		message("died", p);
 		pthread_mutex_unlock(&p->data->mutex);
 		return (1);
 	}
@@ -46,6 +52,7 @@ void lock_forks(t_philo *p)
 
 void unlock_forks(t_philo *p)
 {
+	pthread_mutex_lock(&p->data->mutex);
 	p->is_eating = 0;
 	if (p->is_even)
 	{
@@ -56,6 +63,7 @@ void unlock_forks(t_philo *p)
 		pthread_mutex_unlock(p->r_f);
 		pthread_mutex_unlock(p->l_f);
 	}
+	pthread_mutex_unlock(&p->data->mutex);
 }
 int is_eating(t_philo *p)
 {
@@ -120,36 +128,56 @@ void *routine(void *arg)
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	   while (1)
-    	{
-        pthread_mutex_lock(&p->data->mutex);
-        if (p->data->stop_simulation)
-        {
-            pthread_mutex_unlock(&p->data->mutex);
-            break;
-        }
-        pthread_mutex_unlock(&p->data->mutex);
-        is_eating(p);
-        pthread_mutex_lock(&p->data->mutex);
-        if (p->data->stop_simulation)
-        {
-            pthread_mutex_unlock(&p->data->mutex);
-            break;
-        }
-        pthread_mutex_unlock(&p->data->mutex);
-        is_sleeping(p);
-		 pthread_mutex_lock(&p->data->mutex);
+	while (!is_dead(p))
+	{
+		pthread_mutex_lock(&p->data->mutex);
 		if (p->data->stop_simulation)
-        {
-            pthread_mutex_unlock(&p->data->mutex);
-            break;
-        }
+		{
+			pthread_mutex_unlock(&p->data->mutex);
+			break;
+		}
 		pthread_mutex_unlock(&p->data->mutex);
-        is_thinking(p);
-    }
+		is_eating(p);
+		pthread_mutex_lock(&p->data->mutex);
+		if (p->data->stop_simulation)
+		{
+			pthread_mutex_unlock(&p->data->mutex);
+			break;
+		}
+		pthread_mutex_unlock(&p->data->mutex);
+		is_sleeping(p);
+		pthread_mutex_lock(&p->data->mutex);
+		if (p->data->stop_simulation)
+		{
+			pthread_mutex_unlock(&p->data->mutex);
+			break;
+		}
+		pthread_mutex_unlock(&p->data->mutex);
+		is_thinking(p);
+	}
     return (NULL);
 }
 
+// void *routine(void *arg)
+// {
+// 	t_philo *p = (t_philo *)arg;
+// 	p->data->start_time = get_time();
+// 	int loop = 0;
+// 	while (1)
+// 	{
+// 		pthread_mutex_lock(&p->data->mutex);
+// 		if (p->data->stop_simulation)
+// 		{
+// 			pthread_mutex_unlock(&p->data->mutex);
+// 			break;
+// 		}
+// 	pthread_mutex_unlock(&p->data->mutex);
+// 		is_eating(p);
+// 		is_sleeping(p);
+// 		is_thinking(p);
+// 	}
+// 	return (NULL);
+// }
 
 
 // void *routine(void *arg)
