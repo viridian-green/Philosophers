@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 14:42:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:01:07 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 int monitoring(t_data *data)
 {
 	usleep(100);
-	while (!data->stop_simulation)
+	while (1)
 	{
 		int i;
 		i = 0;
@@ -52,6 +52,8 @@ int monitoring(t_data *data)
 			}
 			i++;
 		}
+		if (data->stop_simulation)
+			break;
 		usleep(10);
 	}
 	return 1;

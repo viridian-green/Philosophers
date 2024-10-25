@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 14:52:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:09:41 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
-	if (p->is_eating)
+	if (get_time() - p->last_meal >= p->data->time_die && !p->is_eating)
 	{
-		pthread_mutex_unlock(&p->data->mutex);
-		return 0;
-	}
-	if (get_time() - p->last_meal >= p->data->time_die)
-	{
-		p->data->stop_simulation = 1;
+		// p->data->stop_simulation = 1;
 		p->is_dead = 1;
 		message("died", p);
 		pthread_mutex_unlock(&p->data->mutex);
