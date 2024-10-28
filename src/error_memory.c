@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 15:13:19 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:13:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int exit_error(char *error_message)
 {
 	ft_putstr_fd(error_message, 2);
+	// free_all(d)
 	exit (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 15:11:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:31:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,27 @@
 int threading_philos(t_data *data)
 {
 	int i = 0;
+	data->start_time = get_time();
 	while (i < data->total_philo)
 	{
-	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
-		return exit_error("Error. Failed to create thread\n");
+		if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
+			return exit_error("Error. Failed to create thread\n");
 	i++;
 	}
 	if (monitoring(data))
 		printf("---------->MONITOR DONE\n");
- 	while (i-- > 0)
-		pthread_join(data->p[i].thread, NULL);
+	// while (i > 0)
+	// {
+	// 	pthread_join(data->p[i].thread, NULL);
+	// 	i--;
+	// }
+	i = 0;
+	while (i < data->total_philo)
+	{
+		if (pthread_join(data->p[i].thread, NULL))
+			return exit_error("Error. Failed to create thread\n");
+		i++;
+	}
 	return (1);
 }
 

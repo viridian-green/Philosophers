@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 14:59:29 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:20:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int init_forks(t_data *data)
 
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->total_philo);
 	if (!data->fork)
-		{
+	{
 		return (exit_error("Failed to allocate memory for forks."));
 		EXIT_FAILURE;
 	}

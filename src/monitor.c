@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 14:58:58 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:25:58 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int all_philos_done_eating(t_data *data)
     }
 	if (sum_of_meals == data->total_philo)
 	{
-		printf("---------------->done eating!");
+		// printf("---------------->done eating!");
  		return 1;
 	}
 	else

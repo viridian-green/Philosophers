@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 10:47:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:18:39 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	message(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->write_mutex);
-	if (!philo->is_dead)
+	if (!philo->is_dead && !philo->data->stop_simulation)
 	{
 		printf("%ld %d %s\n",
 		get_time() - philo->data->start_time, philo->id, str);

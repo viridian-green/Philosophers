@@ -40,7 +40,7 @@ int main(void)
  // setting the value to open 🔓 for example
  if(pthread_mutex_init(&mutex, NULL) != 0)
  {
-  printf("Mutex initialization failed!\\n");
+	printf("Mutex initialization failed!\\n");
   return 1;
  }
  pthread_create(&waiter1, NULL, serve_drink, NULL);
