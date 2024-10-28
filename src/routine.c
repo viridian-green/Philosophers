@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 10:57:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:01:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,16 +136,11 @@ void *routine(void *arg)
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (!is_dead(p) || !check_simulation(p))
+	while (1)
 	{
 		is_eating(p);
-		pthread_mutex_lock(&p->data->mutex);
-		if (p->data->stop_simulation)
-		{
-			pthread_mutex_unlock(&p->data->mutex);
+		if (check_simulation(p))
 			break;
-		}
-		pthread_mutex_unlock(&p->data->mutex);
 		is_sleeping(p);
 		is_thinking(p);
 	}
