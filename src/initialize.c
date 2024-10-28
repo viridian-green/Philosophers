@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 15:01:29 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:59:29 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int data_init(t_data *data, char **argv)
 	if (init_forks(data) || init_philos(data))
 		return (-1);
 	if (pthread_mutex_init(&data->write_mutex, NULL) != 0)
-        perror("Writelock mutex initialization failed");
+		perror("Writelock mutex initialization failed");
 	if (pthread_mutex_init(&data->mutex, NULL) != 0)
-        perror("Data mutex initialization failed");
+		perror("Data mutex initialization failed");
 	return (0);
 }

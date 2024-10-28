@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 13:16:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:13:19 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ int exit_error(char *error_message)
 
 void free_all(t_data *data)
 {
-	free(data->p);
-	free(data->fork);
-	free(data);
+	if (data->p)
+		free(data->p);
+	if (data->fork)
+		free(data->fork);
+	if (data)
+		free(data);
 }
 
 void destroy_mutex(t_data *data)

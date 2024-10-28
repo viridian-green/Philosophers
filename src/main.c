@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 11:58:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:11:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int threading_philos(t_data *data)
 	while (i < data->total_philo)
 	{
 	if (pthread_create(&data->p[i].thread, NULL, routine, &data->p[i]))
-	{
-		return exit_error("Thread creation failed\n");
-	}
+		return exit_error("Error. Failed to create thread\n");
 	i++;
 	}
 	if (monitoring(data))
@@ -40,11 +38,11 @@ int parse_args(t_data *data, int argc, char **argv)
     data->time_sleep = ft_atoi(argv[4]);
 	data->stop_simulation = 0;
     if (argc == 6)
-        data->total_meals = ft_atoi(argv[5]);
-    return (0);
-    }
-    else
-        return 1;
+		data->total_meals = ft_atoi(argv[5]);
+	return (0);
+	}
+	else
+		return 1;
 }
 
 int main(int argc, char **argv)
@@ -53,7 +51,7 @@ int main(int argc, char **argv)
 
 	data = malloc(sizeof(t_data));
 	if (data == NULL)
-		return exit_error("Errong_philos(data);r allocating memory for data\n");
+		return exit_error("Error allocating memory for data\n");
 	if (parse_args(data, argc, argv))
 		return exit_error("Error. Invalid arguments\n");
 	data_init(data, argv);

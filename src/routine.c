@@ -6,13 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 11:01:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:11:54 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-// message("died", p);
 
 int is_dead(t_philo *p)
 {
@@ -28,23 +26,6 @@ int is_dead(t_philo *p)
 	return 0;
 }
 
-void lock_forks(t_philo *p)
-{
-	if (p->is_even)
-	{
-		pthread_mutex_lock(p->l_f);
-		message("has taken a fork", p);
-		pthread_mutex_lock(p->r_f);
-		message("has taken a fork", p);
-	} else
-	{
-		ft_usleep(10);
-		pthread_mutex_lock(p->r_f);
-		message("has taken a fork", p);
-		pthread_mutex_lock(p->l_f);
-		message("has taken a fork", p);
-	}
-}
 
 void unlock_forks(t_philo *p)
 {
@@ -61,10 +42,42 @@ void unlock_forks(t_philo *p)
 	}
 	pthread_mutex_unlock(&p->data->mutex);
 }
+
+
+int lock_forks(t_philo *p)
+{
+	if (check_simulation(p))
+		return 1;
+	if (p->is_even)
+	{
+		pthread_mutex_lock(p->l_f);
+		message("has taken a fork", p);
+		pthread_mutex_lock(p->r_f);
+		message("has taken a fork", p);
+	} else
+	{
+		ft_usleep(10);
+		pthread_mutex_lock(p->r_f);
+		message("has taken a fork", p);
+		pthread_mutex_lock(p->l_f);
+		message("has taken a fork", p);
+	}
+	return 0;
+}
 int is_eating(t_philo *p)
 {
-	lock_forks(p);
-	message("is eating", p);
+	printf("entering beginning function\n");
+	if (!check_simulation(p))
+	{
+		printf("entering function\n");
+		lock_forks(p);
+	}
+	else
+		return 1;
+	printf("simulation flag ----> %d\n", p->data->stop_simulation);
+	if (!check_simulation(p))
+		message("is eating", p);
+	printf("simulation flag ----> %d\n", p->data->stop_simulation);
 	pthread_mutex_lock(&p->data->mutex);
 	p->last_meal = get_time();
 	p->is_eating = 1;
@@ -94,42 +107,7 @@ int is_thinking(t_philo *p)
 	return (0);
 }
 
-int all_philos_done_eating(t_data *data)
-{
-    int i;
-	int sum_of_meals = 0;
-    i = 0;
 
-	while (i < data->total_philo)
-	{
-		pthread_mutex_lock(&data->mutex);
-        if (data->p[i].meals_eaten == data->total_meals)
-		{
-            sum_of_meals++;
-        }
-		pthread_mutex_unlock(&data->mutex);
-		i++;
-    }
-	if (sum_of_meals == data->total_philo)
-	{
-		printf("---------------->done eating!");
- 		return 1;
-	}
-	else
-		return 0;
-}
-
-int check_simulation(t_philo * p)
-{
-	pthread_mutex_lock(&p->data->mutex);
-	if (p->data->stop_simulation)
-	{
-		pthread_mutex_unlock(&p->data->mutex);
-		return 1;
-	}
-	pthread_mutex_unlock(&p->data->mutex);
-	return (0);
-}
 
 void *routine(void *arg)
 {
@@ -138,7 +116,8 @@ void *routine(void *arg)
 	int loop = 0;
 	while (1)
 	{
-		is_eating(p);
+		if (is_eating(p))
+			return NULL;
 		if (check_simulation(p))
 			break;
 		is_sleeping(p);
@@ -146,39 +125,3 @@ void *routine(void *arg)
 	}
     return (NULL);
 }
-
-// void *routine(void *arg)
-// {
-// 	t_philo *p = (t_philo *)arg;
-// 	p->data->start_time = get_time();
-// 	int loop = 0;
-// 	while (1)
-// 	{
-// 		pthread_mutex_lock(&p->data->mutex);
-// 		if (p->data->stop_simulation)
-// 		{
-// 			pthread_mutex_unlock(&p->data->mutex);
-// 			break;
-// 		}
-// 	pthread_mutex_unlock(&p->data->mutex);
-// 		is_eating(p);
-// 		is_sleeping(p);
-// 		is_thinking(p);
-// 	}
-// 	return (NULL);
-// }
-
-
-// void *routine(void *arg)
-// {
-// 	t_philo *p = (t_philo *)arg;
-// 	p->data->start_time = get_time();
-// 	int loop = 0;
-// 	while (!p->data->stop_simulation)
-// 	{
-// 		is_eating(p);
-// 		is_sleeping(p);
-// 		is_thinking(p);
-// 	}
-// 	return (NULL);
-// }
