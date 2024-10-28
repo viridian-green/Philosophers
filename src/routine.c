@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 19:17:31 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:40:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,21 @@ int is_sleeping(t_philo *p)
 int is_thinking(t_philo *p)
 {
 	message("is thinking", p);
-	size_t time;
+	// size_t time;
 
-	time = p->data->time_die - p->data->time_die - p->data->time_sleep;
-	if (!check_simulation(p))
-	{
-		if ((p->data->total_philo % 2) == 0)
-			usleep(10);
-		else
-		{
-			if (time <= 0)
-				usleep(900);
-			else
-				usleep(time * 900);
-		}
-	}
+	// time = p->data->time_die - p->data->time_die - p->data->time_sleep;
+	// if (!check_simulation(p))
+	// {
+	// 	if ((p->data->total_philo % 2) == 0)
+	// 		usleep(10);
+	// 	else
+	// 	{
+	// 		if (time <= 0)
+	// 			usleep(900);
+	// 		else
+	// 			usleep(time * 900);
+	// 	}
+	// }
 	return (0);
 }
 
