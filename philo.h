@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 11:59:07 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:47:51 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 void	ft_putstr_fd(char *s, int fd);
 long	get_time(void);
 void	message(char *str, t_philo *philo);
+void	death_message(t_philo *philo);
 
 //Routine
 int is_thinking(t_philo *p);

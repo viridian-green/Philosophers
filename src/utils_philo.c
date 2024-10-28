@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 15:21:30 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:47:45 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@ void	message(char *str, t_philo *philo)
 	{
 		printf("%ld %d %s\n",
 		get_time() - philo->data->start_time, philo->id, str);
+	}
+	pthread_mutex_unlock(&philo->data->write_mutex);
+}
+
+void	death_message(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->write_mutex);
+	if (philo->is_dead)
+	{
+		printf("%ld %d %s\n",
+		get_time() - philo->data->start_time, philo->id, "died");
 	}
 	pthread_mutex_unlock(&philo->data->write_mutex);
 }

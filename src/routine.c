@@ -6,20 +6,21 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 15:09:41 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:57:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+// message("died", p);
 
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
 	if (get_time() - p->last_meal >= p->data->time_die && !p->is_eating)
 	{
-		// p->data->stop_simulation = 1;
 		p->is_dead = 1;
-		message("died", p);
+		death_message(p);
 		pthread_mutex_unlock(&p->data->mutex);
 		return (1);
 	}
@@ -118,20 +119,25 @@ int all_philos_done_eating(t_data *data)
 		return 0;
 }
 
+int check_simulation(t_philo * p)
+{
+	pthread_mutex_lock(&p->data->mutex);
+	if (p->data->stop_simulation)
+	{
+		pthread_mutex_unlock(&p->data->mutex);
+		return 1;
+	}
+	pthread_mutex_unlock(&p->data->mutex);
+	return (0);
+}
+
 void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
 	p->data->start_time = get_time();
 	int loop = 0;
-	while (!is_dead(p))
+	while (!is_dead(p) || !check_simulation(p))
 	{
-		pthread_mutex_lock(&p->data->mutex);
-		if (p->data->stop_simulation)
-		{
-			pthread_mutex_unlock(&p->data->mutex);
-			break;
-		}
-		pthread_mutex_unlock(&p->data->mutex);
 		is_eating(p);
 		pthread_mutex_lock(&p->data->mutex);
 		if (p->data->stop_simulation)
@@ -141,13 +147,6 @@ void *routine(void *arg)
 		}
 		pthread_mutex_unlock(&p->data->mutex);
 		is_sleeping(p);
-		pthread_mutex_lock(&p->data->mutex);
-		if (p->data->stop_simulation)
-		{
-			pthread_mutex_unlock(&p->data->mutex);
-			break;
-		}
-		pthread_mutex_unlock(&p->data->mutex);
 		is_thinking(p);
 	}
     return (NULL);

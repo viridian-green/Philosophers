@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/25 15:01:07 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:32:21 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@
 // 	return 1;
 // }
 
+//protect the flags here
 int monitoring(t_data *data)
 {
 	usleep(100);
+
+	int done = 0;
 	while (1)
 	{
 		int i;
@@ -47,12 +50,16 @@ int monitoring(t_data *data)
 		{
 			if (is_dead(data->p) || all_philos_done_eating(data))
 			{
+
+				pthread_mutex_lock(&data->mutex);
 				data->stop_simulation = 1;
+				pthread_mutex_unlock(&data->mutex);
+				done = 1;
 				break;
 			}
 			i++;
 		}
-		if (data->stop_simulation)
+		if (done)
 			break;
 		usleep(10);
 	}
