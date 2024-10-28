@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 19:31:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:41:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ int threading_philos(t_data *data)
 	}
 	if (monitoring(data))
 		printf("---------->MONITOR DONE\n");
-	// while (i > 0)
-	// {
-	// 	pthread_join(data->p[i].thread, NULL);
-	// 	i--;
-	// }
 	i = 0;
 	while (i < data->total_philo)
 	{

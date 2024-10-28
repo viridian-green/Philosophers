@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 19:40:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:42:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ int is_dead(t_philo *p)
 
 void unlock_forks(t_philo *p)
 {
-	pthread_mutex_lock(&p->data->mutex);
-	p->is_eating = 0;
-	if (p->is_even)
-	{
-		pthread_mutex_unlock(p->l_f);
+	// pthread_mutex_lock(&p->data->mutex);
+	// p->is_eating = 0;
+	// if (p->is_even)
+	// {
+	// 	pthread_mutex_unlock(p->l_f);
+	// 	pthread_mutex_unlock(p->r_f);
+	// } else
+	// {
 		pthread_mutex_unlock(p->r_f);
-	} else
-	{
-		pthread_mutex_unlock(p->r_f);
 		pthread_mutex_unlock(p->l_f);
-	}
-	pthread_mutex_unlock(&p->data->mutex);
+	// }
+	// pthread_mutex_unlock(&p->data->mutex);
 }
 
 //TODO : chqnge the ft_usleep around
