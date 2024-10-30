@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 15:25:58 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:06:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,13 @@ int all_philos_done_eating(t_data *data)
     }
 	if (sum_of_meals == data->total_philo)
 	{
-		// printf("---------------->done eating!");
+		printf("---------------->done eating!");
  		return 1;
 	}
 	else
 		return 0;
 }
 
-
-//protect the flags here
 int monitoring(t_data *data)
 {
 	usleep(100);
@@ -61,8 +59,8 @@ int monitoring(t_data *data)
 		while (i < data->total_philo)
 		{
 			if (is_dead(data->p) || all_philos_done_eating(data))
+			if ( all_philos_done_eating(data))
 			{
-
 				pthread_mutex_lock(&data->mutex);
 				data->stop_simulation = 1;
 				pthread_mutex_unlock(&data->mutex);

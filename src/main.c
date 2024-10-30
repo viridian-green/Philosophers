@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 19:41:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:05:57 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int parse_args(t_data *data, int argc, char **argv)
 	data->stop_simulation = 0;
     if (argc == 6)
 		data->total_meals = ft_atoi(argv[5]);
+	else
+		data->total_meals = -1;
 	return (0);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:19:23 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 15:18:39 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:53:11 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-//add is dead check here
 void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;

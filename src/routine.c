@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 19:55:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:50:04 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int is_dead(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
-	if (get_time() - p->last_meal >= p->data->time_die && !p->is_eating)
+	if ((get_time() - p->last_meal >= p->data->time_die))
 	{
+		printf("ok");
 		p->is_dead = 1;
 		death_message(p);
 		pthread_mutex_unlock(&p->data->mutex);
@@ -29,16 +30,16 @@ int is_dead(t_philo *p)
 
 void unlock_forks(t_philo *p)
 {
-	// if (p->is_even)
-	// {
-	// 	pthread_mutex_unlock(p->l_f);
-	// 	pthread_mutex_unlock(p->r_f);
-	// } else
-	// {
+	if (p->is_even)
+	{
+		pthread_mutex_unlock(p->l_f);
+		pthread_mutex_unlock(p->r_f);
+	} else
+	{
 		pthread_mutex_unlock(p->r_f);
 		pthread_mutex_unlock(p->l_f);
-	// }
-	//
+	}
+
 }
 
 //TODO : chqnge the ft_usleep around
@@ -47,25 +48,33 @@ int lock_forks(t_philo *p)
 	if (check_simulation(p))
 		return 1;
 	if (p->is_even)
-	{
 		pthread_mutex_lock(p->l_f);
-		message("has taken a fork", p);
-		pthread_mutex_lock(p->r_f);
-		message("has taken a fork", p);
-	} else
+	else
 	{
 		// ft_usleep(10);
 		pthread_mutex_lock(p->r_f);
-		message("has taken a fork", p);
-		pthread_mutex_lock(p->l_f);
-		message("has taken a fork", p);
 	}
+	message("has taken a fork", p);
+	if (p->data->total_philo == 1)
+	{
+		ft_usleep(p->data->time_die);
+		pthread_mutex_unlock(p->r_f);
+		return 1;
+	}
+	if (p->is_even)
+		pthread_mutex_lock(p->r_f);
+	else
+		pthread_mutex_lock(p->l_f);
+	message("has taken a fork", p);
 	return 0;
 }
+
 int is_eating(t_philo *p)
 {
-
-	lock_forks(p);
+	if (lock_forks(p) == 1)
+	{
+		return 1;
+	}
 	message("is eating", p);
 	pthread_mutex_lock(&p->data->mutex);
 	p->last_meal = get_time();
@@ -107,7 +116,17 @@ int is_thinking(t_philo *p)
 	return (0);
 }
 
-
+void one_philo_routine(t_data *data)
+{
+	pthread_mutex_lock(data->p->l_f);
+	message("has taken a fork", data->p);
+	ft_usleep(data->time_die);
+	pthread_mutex_unlock(data->p->l_f);
+	pthread_mutex_lock(&data->mutex);
+	death_message(data->p);
+	data->p->is_dead = 1;
+	pthread_mutex_unlock(&data->mutex);
+}
 
 void *routine(void *arg)
 {
@@ -117,8 +136,7 @@ void *routine(void *arg)
 		ft_usleep(1);
 	while (1)
 	{
-		if (is_eating(p))
-			return NULL;
+		is_eating(p);
 		if (check_simulation(p))
 			break;
 		is_sleeping(p);
