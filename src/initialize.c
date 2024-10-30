@@ -6,41 +6,37 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:51 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 20:00:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:14:06 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 //Function that initializes all forks.
-int init_forks(t_data *data)
+int	init_forks(t_data *data)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->total_philo);
 	if (!data->fork)
-	{
 		return (exit_error("Failed to allocate memory for forks."));
-		EXIT_FAILURE;
-	}
 	while (i < data->total_philo)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL))
-		{
 			return (exit_error("Failed to initialize mutex."));
-			EXIT_FAILURE;
-		}
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 //Function that initializes the data for each philosopher
 int	init_philos(t_data *data)
 {
-	int i = 0;
+	int i;
 	long global_start_time;
 
+	i = 0;
 	global_start_time = get_time();
 	data->p =  malloc(sizeof(t_philo) * data->total_philo);
 	if (!data->p )
@@ -58,16 +54,16 @@ int	init_philos(t_data *data)
 		data->p[i].r_f = &data->fork[(i + 1) % data->total_philo];
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int data_init(t_data *data, char **argv)
 {
-	if (init_forks(data) || init_philos(data))
-		return (-1);
+	if (!init_forks(data) || !init_philos(data))
+		EXIT_FAILURE;
 	if (pthread_mutex_init(&data->write_mutex, NULL) != 0)
-		perror("Writelock mutex initialization failed");
+		exit_error("Writelock mutex initialization failed");
 	if (pthread_mutex_init(&data->mutex, NULL) != 0)
-		perror("Data mutex initialization failed");
+		exit_error("Data mutex initialization failed");
 	return (0);
 }

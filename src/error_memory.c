@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/28 15:13:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:06:18 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void free_all(t_data *data)
 
 void destroy_mutex(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < data->total_philo)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
