@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/30 13:08:31 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:40:37 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@ int check_simulation(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->mutex);
 	if (p->data->stop_simulation || p->is_dead)
+	{
+		pthread_mutex_unlock(&p->data->mutex);
+		return 1;
+	}
+	pthread_mutex_unlock(&p->data->mutex);
+	return (0);
+}
+
+int is_dead(t_philo *p)
+{
+	pthread_mutex_lock(&p->data->mutex);
+	if (p->is_dead)
 	{
 		pthread_mutex_unlock(&p->data->mutex);
 		return 1;
@@ -58,7 +70,7 @@ int monitoring(t_data *data)
 		i = 0;
 		while (i < data->total_philo)
 		{
-			if (is_dead(data->p) || all_philos_done_eating(data))
+			if (philo_dies(data->p) || all_philos_done_eating(data))
 			{
 				pthread_mutex_lock(&data->mutex);
 				data->stop_simulation = 1;

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/29 11:30:34 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:51:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ void	message(char *str, t_philo *philo);
 void	death_message(t_philo *philo);
 int check_simulation(t_philo *p);
 int check_philos(t_data *data);
+int is_dead(t_philo *p);
 
 //Routine
 int is_thinking(t_philo *p);
 int is_sleeping(t_philo *p);
 int is_eating(t_philo *p);
-int is_dead(t_philo *p);
+int philo_dies(t_philo *p);
 void *routine(void *arg);
 int all_philos_done_eating(t_data *data);
 
