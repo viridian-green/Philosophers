@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:16 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/29 11:50:04 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:09:11 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int is_dead(t_philo *p)
 	pthread_mutex_lock(&p->data->mutex);
 	if ((get_time() - p->last_meal >= p->data->time_die))
 	{
-		printf("ok");
 		p->is_dead = 1;
 		death_message(p);
 		pthread_mutex_unlock(&p->data->mutex);
@@ -116,18 +115,7 @@ int is_thinking(t_philo *p)
 	return (0);
 }
 
-void one_philo_routine(t_data *data)
-{
-	pthread_mutex_lock(data->p->l_f);
-	message("has taken a fork", data->p);
-	ft_usleep(data->time_die);
-	pthread_mutex_unlock(data->p->l_f);
-	pthread_mutex_lock(&data->mutex);
-	death_message(data->p);
-	data->p->is_dead = 1;
-	pthread_mutex_unlock(&data->mutex);
-}
-
+//TODO: Check time to die for one philo routine 
 void *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;

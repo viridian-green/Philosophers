@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:27:40 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/30 13:06:34 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:08:31 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int monitoring(t_data *data)
 		while (i < data->total_philo)
 		{
 			if (is_dead(data->p) || all_philos_done_eating(data))
-			if ( all_philos_done_eating(data))
 			{
 				pthread_mutex_lock(&data->mutex);
 				data->stop_simulation = 1;
