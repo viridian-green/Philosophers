@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:43:44 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/30 13:05:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:35:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int threading_philos(t_data *data)
 			return exit_error("Error. Failed to create thread\n");
 	i++;
 	}
-	if (monitoring(data))
-		printf("---------->MONITOR DONE\n");
+	monitoring(data);
 	i = 0;
 	while (i < data->total_philo)
 	{
