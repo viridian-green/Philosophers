@@ -6,14 +6,14 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:41:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/15 13:42:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:49:56 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr, t_data *data)
 {
 	size_t	result;
 	size_t	sign;
@@ -30,7 +30,7 @@ int	ft_atoi(const char *nptr)
 	{
 		if (nptr[i] == '-')
 		{
-			sign = -1;
+			exit_error("Error, arguments cannot be negative\n", data);
 		}
 		i++;
 	}

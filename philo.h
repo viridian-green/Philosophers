@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:12:29 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/30 17:33:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/11/02 14:31:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_philo
 	int	meals_eaten;
 	int is_even;
 	int		is_dead;
-	int		is_eating;
 	long 	last_meal;
 	long	has_eaten;
 	t_data *data;
@@ -57,12 +56,12 @@ int data_init(t_data *arg, char **argv);
 int init_forks(t_data *args);
 
 //Error/memory
-int exit_error(char *error_message);
+int	exit_error(char *error_message, t_data *data);
 void destroy_mutex(t_data *data);
 void free_all(t_data *data);
 
 //Utils
-int	ft_atoi(const char *nptr);
+int	ft_atoi(const char *nptr, t_data *data);
 void	ft_usleep(long int time_in_ms);
 long get_elapsed_time_microseconds(struct timeval start, struct timeval end);
 void	ft_putstr_fd(char *s, int fd);

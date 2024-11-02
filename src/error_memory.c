@@ -6,20 +6,21 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:15:47 by ademarti          #+#    #+#             */
-/*   Updated: 2024/10/30 18:06:18 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/11/02 14:36:41 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int exit_error(char *error_message)
+int	exit_error(char *error_message, t_data *data)
 {
 	ft_putstr_fd(error_message, 2);
-	// free_all(d)
+	destroy_mutex(data);
+	free_all(data);
 	exit (1);
 }
 
-void free_all(t_data *data)
+void	free_all(t_data *data)
 {
 	if (data->p)
 		free(data->p);
@@ -29,7 +30,7 @@ void free_all(t_data *data)
 		free(data);
 }
 
-void destroy_mutex(t_data *data)
+void	destroy_mutex(t_data *data)
 {
 	int	i;
 
